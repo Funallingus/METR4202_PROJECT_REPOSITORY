@@ -21,7 +21,8 @@ C = bwareaopen(C, 30);
 figure;
 imshow(C);
 %%uncommited changes
-%%second test
+%%Testing commits
+%%changes
 
 
 
