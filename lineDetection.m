@@ -20,7 +20,6 @@ C = bwmorph(C, 'skel');
 C = bwareaopen(C, 30);
 figure;
 imshow(C);
-%%uncommited changes
 
 
 
