@@ -1,4 +1,7 @@
 %%clear all;
+%%test file commited to repository on 12-9-16 @ 4:56
+%%code kind of works for edge detection
+
 function lineDetection(filename)
 %% edge detection via canny algorithm
 close all
@@ -20,9 +23,6 @@ C = bwmorph(C, 'skel');
 C = bwareaopen(C, 30);
 figure;
 imshow(C);
-%%uncommited changes
-%%Testing commits
-%%changes
 
 
 
