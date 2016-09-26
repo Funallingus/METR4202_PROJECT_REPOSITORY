@@ -1,30 +1,28 @@
 clear all
 close all
-directory = pwd;
-%% set opts for training (see edgesTrain.m)
-opts=edgesTrain();                % default options (good settings)
-opts.modelDir='models/';          % model will be in models/forest
-opts.modelFnm='modelBsds';        % model name
-opts.nPos=5e5; opts.nNeg=5e5;     % decrease to speedup training
-opts.useParfor=0;                 % parallelize if sufficient memory
+%%function takes in a 1980x1020 image
 
-model=edgesTrain(opts);
 
-model.opts.multiscale=0;          % for top accuracy set multiscale=1
-model.opts.sharpen=0;             % for top speed set sharpen=0
-model.opts.nTreesEval=1;          % for top speed set nTreesEval=1
-model.opts.nThreads=7;            % max number threads for evaluation
-model.opts.nms=0;                 % set to true to enable nms
+%%only do this once
+train_edge_detection;
 
-cd (directory);
-I = imread('test image 2.jpg');
-tic; E = edgesDetect(I, model); toc;
+
+I = imread('kinect 2 test.jpg');
+J = imresize(I, 0.75);
+J = imsharpen(J, 'Radius', 3, 'Amount', 2);
+%tic; E = edge(rgb2gray(I), 'sobel'); toc;
+tic; E = edgesDetect(J, model); 
 F = 1-E;
-F = im2bw(F, graythresh(F));
+figure(1); im(E);
+%BW = E > 0;
+thresh = sqrt(graythresh(F));
+BW = im2bw(F, thresh);
+%figure(2); im(F);
+BW = bwmorph(BW, 'spur');
+BW = 1-BW;
+%figure(2); im(I);
+figure(3); im(BW);
 
-%F = bwmorph(F, 'thicken');
-E = 1-F;
-figure(1); im(I); figure(2); im(E);
-
-
+fit_lines_crop;
+toc;
 
