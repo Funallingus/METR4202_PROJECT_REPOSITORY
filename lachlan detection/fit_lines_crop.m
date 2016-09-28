@@ -26,8 +26,8 @@ width = blobMeasurements(k).Extrema(4) - blobMeasurements(k).Extrema(6);
 height = blobMeasurements(k).Extrema(2) - blobMeasurements(k).Extrema(8);
 extrema_aspect_ratio = width/height;
 axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
-if  (axis_aspect_ratio > 0.3) && (axis_aspect_ratio < 0.7) && ...
-            (blobMeasurements(k).Area > 10 && blobMeasurements(k).Area < 10^5)
+if  (axis_aspect_ratio > 0.3)  && (blobMeasurements(k).Area > 100 &&...
+        blobMeasurements(k).Area < 10^5)
     x = [x1 x2 x2 x1 x1];
     y = [y1 y1 y2 y2 y1];
     plot(x, y, 'LineWidth', 2);

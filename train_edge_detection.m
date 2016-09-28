@@ -8,7 +8,7 @@ opts.useParfor=1;                 % parallelize if sufficient memory
 
 model=edgesTrain(opts);
 
-model.opts.multiscale=1;          % for top accuracy set multiscale=1
+model.opts.multiscale=0;          % for top accuracy set multiscale=1
 model.opts.sharpen=1;             % for top speed set sharpen=0
 model.opts.nTreesEval=1;          % for top speed set nTreesEval=1
 model.opts.nThreads=4;            % max number threads for evaluation
