@@ -2,35 +2,98 @@
 %%by the edge detection toolbox
 %%
 [B,L,N,A] = bwboundaries(BW);
-figure; imshow(J); hold on;
+figure; imshow(currentImage); hold on;
 for k=1:length(B),
     if(~sum(A(k,:)))
-       boundary = B{k};
-     plot(boundary(:,2),boundary(:,1),'r','LineWidth',2);hold on;
+      boundary = B{k};
+     plot(boundary(:,2)/resize,boundary(:,1)/resize,'r','LineWidth',2);hold on;
     end
 end
 %%
 %%Plot bouding boxes found via bwboudnaries
-blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area', 'Extrema');
+disp('Draw box and cull bad candidates');
+tic;
+blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area', 'Orientation');
 numberOfBlobs = size(blobMeasurements, 1);
 
-
+%%crop domino candidates out of original image
+%%some preprocessing by filtering boxes that are too small/large
 rects = [];
+index = 1;
 for k = 1 : numberOfBlobs % Loop through all blobs.
-rects = blobMeasurements(k).BoundingBox; % Get list ofpixels in current blob.
-x1 = rects(1);
-y1 = rects(2);
-x2 = x1 + rects(3);
-y2 = y1 + rects(4);
-width = blobMeasurements(k).Extrema(4) - blobMeasurements(k).Extrema(6);
-height = blobMeasurements(k).Extrema(2) - blobMeasurements(k).Extrema(8);
-extrema_aspect_ratio = width/height;
-axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
-if  (axis_aspect_ratio > 0.3)  && (blobMeasurements(k).Area > 100 &&...
-        blobMeasurements(k).Area < 10^5)
-    x = [x1 x2 x2 x1 x1];
-    y = [y1 y1 y2 y2 y1];
-    plot(x, y, 'LineWidth', 2);
+    rects = blobMeasurements(k).BoundingBox; % Get list ofpixels in current blob.
+    x1 = rects(1)/resize;
+    y1 = rects(2)/resize;
+    x2 = x1 + rects(3)/resize;
+    y2 = y1 + rects(4)/resize;
+    width = rects(3)/resize;
+    height = rects(4)/resize;
+    extrema_aspect_ratio = width/height;
+    axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
+    if  (axis_aspect_ratio > 0.2)  && (width* height) > 100 &&...
+       (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
+        x = [x1 x2 x2 x1 x1];
+        y = [y1 y1 y2 y2 y1];
+        rotateAngle = 45 - blobMeasurements(1).Orientation;
+        croppedImage = imcrop(currentImage, [x1, y1, width, height]);
+        dominoCandidate{index} = croppedImage;
+        dominoCandidateBox_x{index} = x;
+        dominoCandidateBox_y{index} = y;
+        index = index + 1;
+        plot(x, y, 'LineWidth', 2);
+    end
+end
+hold off
+
+%%
+%%SURF matching of candidates cropped out of original image
+figure; imshow(currentImage);
+hold on;
+for i = 1 : size(dominoCandidate, 2)
+%%loop through domino candidates
+    candidateGray = rgb2gray(dominoCandidate{i});
+%%extract canidate features
+    candidatePoints = detectSURFFeatures(candidateGray);
+    [candidateFeatures, candidatePoints] = extractFeatures(...
+                    candidateGray, candidatePoints);
+    
+%{
+    if size(candidatePoints, 1) > 0
+        figure; imshow(candidateGray);
+        hold on;
+        plot(selectStrongest(candidatePoints, 100));
+        hold off;
+    end
+%}
+    dominoCandidatePairs = [];
+    index = 1; %%index of matched image in referenceImage array
+    for j = 1 : size(referenceImages, 2)
+%%compare candidates to reference image library  
+       [dominoCandidatePairsSearch, status] = matchFeatures(...
+                    referenceFeatures{j}, candidateFeatures);
+       %%if a better match found update matches features array
+       if size(dominoCandidatePairs) < size(dominoCandidatePairsSearch)
+          dominoCandidatePairs = dominoCandidatePairsSearch;
+          index = j;
+       end
+       %%check if match successful
+       
+    end
+%{
+    if size(dominoCandidatePairs, 2) > 0
+        matchedBoxPoints = referencePoints{index}(dominoCandidatePairs(:, 1), :);
+        matchedScenePoints = candidatePoints(dominoCandidatePairs(:, 2), :);
+        figure;
+        showMatchedFeatures(referenceImages{index}, dominoCandidate{i}, matchedBoxPoints, ...
+        matchedScenePoints, 'montage');
+        title('Putatively Matched Points (Including Outliers)');
+%}
+    if size(dominoCandidatePairs, 2) > 0
+        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2);
+   end
 end
 
-end
+
+
+toc;
+
