@@ -92,6 +92,8 @@ for i = 1 : size(referenceImages, 2);
     referencePoints{i} = dominoPoints;
 end
 
+referenceLibrary = {referenceImages, referencePoints, referenceFeatures};
+
 
 
 

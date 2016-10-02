@@ -1,6 +1,7 @@
 %% Adds bounding box to all of the objects (rectangles) found
 %%by the edge detection toolbox
 %%
+%{
 [B,L,N,A] = bwboundaries(BW);
 figure; imshow(currentImage); hold on;
 for k=1:length(B),
@@ -9,9 +10,10 @@ for k=1:length(B),
      plot(boundary(:,2)/resize,boundary(:,1)/resize,'r','LineWidth',2);hold on;
     end
 end
+%}
 %%
 %%Plot bouding boxes found via bwboudnaries
-disp('Draw box and cull bad candidates');
+disp('Filter bad candidates');
 tic;
 blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area', 'Orientation');
 numberOfBlobs = size(blobMeasurements, 1);
@@ -33,20 +35,23 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
         x = [x1, x2, x2, x1, x1];
         y = [y1, y1, y2, y2, y1];
+        dominoCanidateCentroid_x{index} = (x1 + x2) / 2;
+        dominoCanidateCentroid_y{index} = (y1 + y2) /  2;
         croppedImage = imcrop(currentImage, [x1, y1, width, height]);
         dominoCandidate{index} = croppedImage;
         dominoCandidateBox_x{index} = x;
         dominoCandidateBox_y{index} = y;
         index = index + 1;
-        plot(x, y, 'LineWidth', 2);
+        %plot(x, y, 'LineWidth', 2);
     end
 end
-hold off
+%hold off
 
 %%
 %%SURF matching of candidates cropped out of original image
 figure; imshow(currentImage);
 hold on;
+index = 1;
 for i = 1 : size(dominoCandidate, 2)
 %%loop through domino candidates
     candidateGray = rgb2gray(dominoCandidate{i});
@@ -90,10 +95,12 @@ for i = 1 : size(dominoCandidate, 2)
     
     if size(dominoCandidatePairs, 2) > 0
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2);
+        domino{index} = dominoCandidate{i};
+        dominoCentroid_x{index} = dominoCanidateCentroid_x{i};
+        dominoCentroid_y{index} = dominoCanidateCentroid_y{i};
+        index = index + 1;
     end
 end
-
-
 
 toc;
 
