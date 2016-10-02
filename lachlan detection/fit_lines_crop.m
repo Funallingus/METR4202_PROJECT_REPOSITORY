@@ -28,13 +28,11 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     y2 = y1 + rects(4)/resize;
     width = rects(3)/resize;
     height = rects(4)/resize;
-    extrema_aspect_ratio = width/height;
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
-    if  (axis_aspect_ratio > 0.2)  && (width* height) > 100 &&...
+    if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
-        x = [x1 x2 x2 x1 x1];
-        y = [y1 y1 y2 y2 y1];
-        rotateAngle = 45 - blobMeasurements(1).Orientation;
+        x = [x1, x2, x2, x1, x1];
+        y = [y1, y1, y2, y2, y1];
         croppedImage = imcrop(currentImage, [x1, y1, width, height]);
         dominoCandidate{index} = croppedImage;
         dominoCandidateBox_x{index} = x;
@@ -66,7 +64,7 @@ for i = 1 : size(dominoCandidate, 2)
     end
 %}
     dominoCandidatePairs = [];
-    index = 1; %%index of matched image in referenceImage array
+    index = 0; %%index of matched image in referenceImage array
     for j = 1 : size(referenceImages, 2)
 %%compare candidates to reference image library  
        [dominoCandidatePairsSearch, status] = matchFeatures(...
@@ -87,10 +85,12 @@ for i = 1 : size(dominoCandidate, 2)
         showMatchedFeatures(referenceImages{index}, dominoCandidate{i}, matchedBoxPoints, ...
         matchedScenePoints, 'montage');
         title('Putatively Matched Points (Including Outliers)');
+    end
 %}
+    
     if size(dominoCandidatePairs, 2) > 0
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2);
-   end
+    end
 end
 
 

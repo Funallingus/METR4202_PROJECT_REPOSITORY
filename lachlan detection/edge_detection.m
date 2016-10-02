@@ -7,8 +7,8 @@ close all
 train_edge_detection;
 resize = 0.25;
 % load
-%currentImage = imread('Kinect 2 test.jpg');
-currentImage = imread('test image.jpg');
+currentImage = imread('Kinect 2 test.jpg');
+%currentImage = imread('Tracking sequence 1/sequence_1.jpg');
 disp('Detect edges from image');
 tic; 
 J = imresize(currentImage, resize);
