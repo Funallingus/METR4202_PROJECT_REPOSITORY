@@ -1,4 +1,5 @@
-function [domino, dominoCentroid_x, dominoCentroid_y, dominoMatch] = edge_detection(currentImage, model, referenceLibrary)
+function [domino, dominoBoxDimensions, dominoMatch, dominoPose] = ...
+                edge_detection(currentImage, model, referenceLibrary, compositeLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
 %%
@@ -6,6 +7,10 @@ function [domino, dominoCentroid_x, dominoCentroid_y, dominoMatch] = edge_detect
 referenceImages = referenceLibrary{1};
 %referencePoints = referenceLibrary{2};
 referenceFeatures = referenceLibrary{3};
+
+compositeImages = compositeLibrary{1};
+compositeFeatures = compositeLibrary{3};
+
 %%
 
 %scale image down to improve processing time
@@ -16,11 +21,11 @@ resize = 0.25;
 disp('Detect edges from image');
 tic; 
 J = imresize(currentImage, resize);
-K = imsharpen(J, 'Radius',2, 'Amount', 2);
+K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
 F = edgesDetect(K, model); 
-thresh = graythresh(F);
-BW = im2bw(F, thresh);
+%thresh = adaptthresh(F, 0.4);
+BW = imbinarize(F, graythresh(F));
 
 toc;
 
@@ -65,8 +70,7 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
         x = [x1, x2, x2, x1, x1];
         y = [y1, y1, y2, y2, y1];
-        dominoCanidateCentroid_x{index} = (x1 + x2) / 2;
-        dominoCanidateCentroid_y{index} = (y1 + y2) /  2;
+        dominoCanidate_box_dimensions{index} = [x1, y2, width, height];
         croppedImage = imcrop(currentImage, [x1, y1, width, height]);
         dominoCandidate{index} = croppedImage;
         dominoCandidateBox_x{index} = x;
@@ -83,6 +87,8 @@ figure(20); imshow(currentImage);
 hold on;
 count = 1;
 for i = 1 : size(dominoCandidate, 2)
+    isDomino = 0;
+    isDice = 0;
 %%loop through domino candidates
     candidateGray = rgb2gray(dominoCandidate{i});
 %%extract canidate features
@@ -100,18 +106,27 @@ for i = 1 : size(dominoCandidate, 2)
 %}
     dominoCandidatePairs = [];
     index = 0; %%index of matched image in referenceImage array
-    for j = 1 : size(referenceImages, 2)
+    for j = 1 : size(compositeImages, 2)
 %%compare candidates to reference image library  
        [dominoCandidatePairsSearch, status] = matchFeatures(...
-                    referenceFeatures{j}, candidateFeatures);
+                    compositeFeatures{j}, candidateFeatures);
        %%if a better match found update matches features array
        if size(dominoCandidatePairs) < size(dominoCandidatePairsSearch)
           dominoCandidatePairs = dominoCandidatePairsSearch;
           index = j;
+          isDomino = 1;
        end
        %%check if match successful
        
     end
+    
+    
+   [dominoCandidatePairsSearch, status] = matchFeatures(dice{2}, candidateFeatures);
+   if size(dominoCandidatePairs) < size(dominoCandidatePairsSearch)
+       isDomino = 0;
+       isDice = 1;
+       dominoCandidatePairs = dominoCandidatePairsSearch;
+   end
 %{
     if size(dominoCandidatePairs, 2) > 0
         matchedBoxPoints = referencePoints{index}(dominoCandidatePairs(:, 1), :);
@@ -123,13 +138,20 @@ for i = 1 : size(dominoCandidate, 2)
     end
 %}
     
-    if size(dominoCandidatePairs, 2) > 0
-        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2);
+    if size(dominoCandidatePairs, 2) > 1 && isDomino
+        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
         domino{count} = dominoCandidate{i};
-        dominoCentroid_x{count} = dominoCanidateCentroid_x{i};
-        dominoCentroid_y{count} = dominoCanidateCentroid_y{i};
-        dominoMatch{count} = referenceImages{index};
+        dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
+        %dominoMatch{count} = compositeImages{index};
+        [match, pose] = identify_domino(candidateFeatures, ...
+                                            index, referenceImages, referenceFeatures);
+        dominoMatch{count} = match;
+        dominoPose{count} = pose;
         count = count + 1;
+    end
+    
+    if isDice
+        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'r');
     end
 end
 
