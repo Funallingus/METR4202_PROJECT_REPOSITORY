@@ -6,6 +6,7 @@
 %http://au.mathworks.com/help/supportpkg/kinectforwindowsruntime/examples/preview-color-and-depth-streams-simultaneously-from-the-kinect-v2.html?searchHighlight=depth%20image%20kinect%20matlab
 %depthVid = videoinput('kinect',2)
 function depthImage(depthImage, colorImage, depthDevice, u, v, focal_length)
+
 [alignedFlippedImage,flippedDepthImage] = alignColorToDepth(depthImage,colorImage,depthDevice);
 
 %depthDevice — Video input object

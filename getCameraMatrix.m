@@ -1,4 +1,5 @@
 % extrinsics formation
+% Change the formation of the camera matrix
 
 function cameraMatrix = getCameraMatrix(intrinsics, rotMatrix, ...
     transVector, f)
@@ -11,17 +12,19 @@ extrinsics(4,:) = [0 0 0];
 % right column
 transVector(4) = 1;
 extrinsics(:,4) = transVector;
+% extrinsics = eye(4);
 
 %% Form total intrinsics matrix K
 fMatrix = eye(4);
 fMatrix = fMatrix(1:3,:);
-fMatrix(1, 1) = f;
-fMatrix(2, 2) = f;
+% fMatrix(1, 1) = f;
+% fMatrix(2, 2) = f;
 
 % Total matrix K = intrinsics * fMatrix (see lecture 7 slide 5)
-K = intrinsics * fMatrix;
+% intrinsics = transpose(intrinsics)
+K = (intrinsics) * (fMatrix);
 
 %% Form camera matrix K * Extrinsics
-cameraMatrix = K * inv(extrinsics);
+cameraMatrix = K * (inv(extrinsics));
 
 end

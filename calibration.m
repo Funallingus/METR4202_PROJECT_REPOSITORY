@@ -4,7 +4,7 @@ mkdir('calibrationImages')
 %triggers data acquisition
 try
 
-    for i = 1:45
+    for i = 1:25
         %Trigger a frame request
         trigger([colorVid depthVid])
 
@@ -29,7 +29,7 @@ try
     disp('in 1')
     pause(1);
     
-    for i = 46:50
+    for i = 26:30
         trigger([colorVid depthVid])
         [colorIm, colorTime, colorMeta] = getdata(colorVid);
         [depthIm, depthTime, depthMeta] = getdata(depthVid);
