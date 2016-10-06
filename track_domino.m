@@ -38,44 +38,44 @@ else
 
 end
 
-
-%display the image with the point drawn on
-scene = range;
-
-%% Get and display 200 frames from vi devices
-figure('Position', [100, 100, 1000, 700]); %sets the figure window size for all im
-
-
-% There are many ways to plot an image
-% 'imshow' tends to be the easiest how ever it is slow
-% the following constructs an image object that can
-% have its data overwritten directly improving image display
-% performance
-
-% Setup plot
-set(gca,'units','pixels');
-% Aquire size of video image format
-sz = size(scene);
-
-% Construct image display object
-cim = image(...
-    [1 sz(2)],...
-    [1 sz(1)],...
-    zeros(sz(1), sz(2), 1),...
-    'CDataMapping', 'scaled'...
-);
-
-% Ensure axis is set to improve display
-colormap gray;
-axis image;
-
-set(cim, 'cdata', scene);
-
-hold on;
-
-place = scatter(coordX, coordY);
-hold off;
-drawnow;
+% 
+% %display the image with the point drawn on
+% scene = range;
+% 
+% %% Get and display 200 frames from vi devices
+% figure('Position', [100, 100, 1000, 700]); %sets the figure window size for all im
+% 
+% 
+% % There are many ways to plot an image
+% % 'imshow' tends to be the easiest how ever it is slow
+% % the following constructs an image object that can
+% % have its data overwritten directly improving image display
+% % performance
+% 
+% % Setup plot
+% set(gca,'units','pixels');
+% % Aquire size of video image format
+% sz = size(scene);
+% 
+% % Construct image display object
+% cim = image(...
+%     [1 sz(2)],...
+%     [1 sz(1)],...
+%     zeros(sz(1), sz(2), 1),...
+%     'CDataMapping', 'scaled'...
+% );
+% 
+% % Ensure axis is set to improve display
+% colormap gray;
+% axis image;
+% 
+% set(cim, 'cdata', scene);
+% 
+% hold on;
+% 
+% place = scatter(coordX, coordY);
+% hold off;
+% drawnow;
 
 
 
