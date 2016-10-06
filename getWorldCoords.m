@@ -7,7 +7,7 @@ camMatrix = evalin('base', 'camMatrix');
 intrinsics = evalin('base', 'cameraParams.IntrinsicMatrix');
 intrinsics = transpose(intrinsics);
 cameraParams = evalin('base', 'cameraParams');
-extrinsics = evalin('base', 'extrinsics')
+extrinsics = evalin('base', 'invExtrinsics')
 fx = cameraParams.FocalLength(1);
 fy = cameraParams.FocalLength(2);
 
@@ -57,7 +57,7 @@ sol = solve([eqn1, eqn2], [x, y]);
 % worldCoords(2) = sol.y;
 % worldCoords(3) = z;
 
-%% Pin hole then transformation using extrinsics
+%% Pinhole then transformation using extrinsics
 pinHoleCoords(1) = (pixelCoords1 / fx) * z;
 pinHoleCoords(2) = (pixelCoords2 / fy) * z;
 pinHoleCoords(3) = z;
@@ -66,7 +66,11 @@ pinHoleCoords(4) = 1;
 
 pinHoleCoords
 
-worldCoords = pinHoleCoords;
+% Relative to the camera origin
+% worldCoords = pinHoleCoords;
+
+%% Apply the transformation matrix
+worldCoords = extrinsics * pinHoleCoords';
 
 % Transform to placed frame using inv(extrinsics) matrix (transformation matrix)
 class pinHoleCoords

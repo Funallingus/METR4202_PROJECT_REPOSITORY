@@ -14,7 +14,7 @@ invExtrinsics = transpose(rotMatrix);
 % bottom row
 invExtrinsics(4,:) = [0 0 0];
 invExtrinsics(:,4) = transVector .* -1;
-invExtrinsics(4:4) = 1;
+invExtrinsics(4,4) = 1;
 % extrinsics = eye(4);
 
 %% Form total intrinsics matrix K
