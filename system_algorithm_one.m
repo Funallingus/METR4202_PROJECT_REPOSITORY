@@ -15,7 +15,7 @@ yMap = abs(feducialBox(3, 2) - feducialBox(2, 2)) / 40;
 %%
 %find dominos
 [domino, boxDimensions, match, pose] = edge_detection(frame, model,...
-                    referenceLibrary, compositeLibrary, dice);
+                    referenceLibrary, compositeLibrary, dice, feducialCentroid);
 
 %%
 %%%track domino%%%

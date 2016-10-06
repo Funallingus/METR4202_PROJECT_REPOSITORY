@@ -1,5 +1,5 @@
 function [domino, dominoBoxDimensions, dominoMatch, dominoPose] = ...
-                edge_detection(currentImage, model, referenceLibrary, compositeLibrary, dice, feducialCentroid)
+                edge_detection(currentImage, model, referenceLibrary, compositeLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
 %%
