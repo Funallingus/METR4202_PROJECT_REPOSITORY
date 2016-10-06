@@ -4,7 +4,7 @@ mkdir('calibrationImages')
 %triggers data acquisition
 try
 
-    for i = 1:25
+    for i = 1:15
         %Trigger a frame request
         trigger([colorVid depthVid])
 
@@ -17,19 +17,15 @@ try
     end
     
     % Calibrate last frame to obtain true extrinsics matrix
-    disp('Zhang, get the checkerboards ass in the plane. count down starting')
-    disp('in 5')
-    pause(1);
-    disp('in 4')
-    pause(1);
+    disp('Banginator, get the checkerboards ass in the plane. count down starting')
     disp('in 3')
     pause(1);
     disp('in 2')
-    pause(1)
+    pause(1);
     disp('in 1')
     pause(1);
     
-    for i = 26:30
+    for i = 16:18
         trigger([colorVid depthVid])
         [colorIm, colorTime, colorMeta] = getdata(colorVid);
         [depthIm, depthTime, depthMeta] = getdata(depthVid);
@@ -49,9 +45,21 @@ matSize = size(cameraParams.TranslationVectors);
 lastIndex = matSize(1);
 cameraParams.RotationMatrices(:,:,lastIndex)
 cameraParams.TranslationVectors(lastIndex,:)
-cameraMatrix = getCameraMatrix(cameraParams.IntrinsicMatrix,...
+
+% Form camera matrix from intrinsics matrix, translation and rotation vectors
+% camMatrix = cameraMatrix(cameraParams, ...
+%         cameraParams.RotationMatrices(:,:,lastIndex), ...
+%         cameraParams.TranslationVectors(lastIndex, :));
+
+[extrinsics, invExtrinsics, camMatrix] = ...
+    getCameraMatrix(cameraParams.IntrinsicMatrix,...
     cameraParams.RotationMatrices(:,:,lastIndex),...
     cameraParams.TranslationVectors(lastIndex,:),...
     cameraParams.FocalLength(1))
+
+
+
+% Display errors
+displayErrors(estimationErrors, cameraParams)
 rmdir('calibrationImages', 's');
 
