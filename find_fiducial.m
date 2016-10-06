@@ -18,7 +18,8 @@ fiducial_1 = imread('Fiducial image library/fiducial_calibration_image_1.png');
 fiducial_2 = imread('Fiducial image library/fiducial_calibration_image_2.png');
 fiducial_3 = imread('Fiducial image library/fiducial_calibration_image_3.png');
 fiducial_4 = imread('Fiducial image library/fiducial_calibration_image_4.png');
-fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4};
+fiducial_5 = imread('Fiducial image library/fiducial_calibration_image_5.png');
+fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4, fiducial_5};
 
 disp('Convert scene to grayscale and extract features');
 tic;

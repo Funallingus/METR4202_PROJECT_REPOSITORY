@@ -54,7 +54,7 @@ result = [];
 for j = 1:numDomino
     result(j) = 0;
 end
-
+previousTime = time;
 while 1
 %for i = 1:9
    %do the tracking thing 
@@ -85,11 +85,11 @@ while 1
             y = [y1, y1, y2, y2, y1];
         else
             x = [x1-width/2, x2, x2, x1-width/2, x1-width/2];
-            y = [y1+height/2, y1+height/2, y2, y2, y1+height/2]
+            y = [y1+height/2, y1+height/2, y2, y2, y1+height/2];
         end
         hold on; result(i) = plot(x, y, 'LineWidth', 2); hold off;
         distance = sqrt((knownLocation(i, 1) - (newLocation(i, 1)))^2 + ((knownLocation(i, 2) - (newLocation(i, 2)))^2)); %change in difference
-        speed = distance/time;
+        speed = distance/(time - previousTime);
         fprintf('Speed: %g pixels/s, distance: %g \n', speed, distance);
         drawnow; 
    end
@@ -107,5 +107,6 @@ while 1
    dominoLocationHistory = [dominoLocationHistory; newLocation];
    knownLocation = newLocation;
    previousImage = currentImage;
+   previousTime = time;
    i = i + 1;
 end

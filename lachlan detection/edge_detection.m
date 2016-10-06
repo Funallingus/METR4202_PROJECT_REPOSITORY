@@ -10,7 +10,11 @@ referenceFeatures = referenceLibrary{3};
 
 compositeImages = compositeLibrary{1};
 compositeFeatures = compositeLibrary{3};
+dominoString = {'0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2',...
+    '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4',...
+    '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'};
 
+poseString = {'flat', 'upright', 'sideways'};
 
 
 %%
@@ -27,7 +31,7 @@ K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
 F = edgesDetect(K, model); 
 thresh = adaptthresh(F, 0.2);
-BW = imbinarize(F, thresh);
+BW = imbinarize(F, graythresh(F));
 
 toc;
 
@@ -142,6 +146,9 @@ for i = 1 : size(dominoCandidate, 2)
     
     if size(dominoCandidatePairs, 2) > 1 && isDomino
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
+        strmax = ['Domino = ', dominoString{index}];
+        text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
+            'FontSize', 8);
         domino{count} = dominoCandidate{i};
         dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
         %dominoMatch{count} = compositeImages{index};
@@ -149,6 +156,9 @@ for i = 1 : size(dominoCandidate, 2)
                                             index, referenceImages, referenceFeatures);
         dominoMatch{count} = match;
         dominoPose{count} = pose;
+        fprintf('Domino detected at x: %g y: %g\n', dominoBoxDimensions{count}(1)...
+            + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
+        fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
         count = count + 1;
     end
     
