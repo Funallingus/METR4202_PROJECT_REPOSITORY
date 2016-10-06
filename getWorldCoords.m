@@ -38,8 +38,8 @@ camMat13 = (camMatrix(1,3));
 camMat24 = (camMatrix(2,4));
 camMat23 = (camMatrix(2,3));
 
-rhs1 = (pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z);
-rhs2 = (pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z);
+rhs1 = (pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z)
+rhs2 = (pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z)
 
 syms x y
 
@@ -52,6 +52,8 @@ eqn2 = camMatrix(2,1)*x + camMatrix(2,2)*y  == rhs2;
 eqn3 = camMatrix(3,1)*x + camMatrix(3,2)*y == 1;
 
 sol = solve([eqn1, eqn2], [x, y]);
+[A,B] = equationsToMatrix([eqn1, eqn2], [x, y]);
+X = linsolve(A, B);
 
 % worldCoords(1) = sol.x;
 % worldCoords(2) = sol.y;
@@ -69,13 +71,19 @@ pinHoleCoords
 % Relative to the camera origin
 % worldCoords = pinHoleCoords;
 
-%% Apply the transformation matrix
+% Apply the transformation matrix
 worldCoords = extrinsics * pinHoleCoords';
 
 % Transform to placed frame using inv(extrinsics) matrix (transformation matrix)
 class pinHoleCoords
 % worldCoords = extrinsics * pinHoleCoords';
-%%
+
+
+%% Using complete camera model (equations are above)
+
+% worldCoords(1) = double(X(1))
+% worldCoords(2) = double(X(2))
+% worldCoords(3) = z;
 % worldCoords(1) = round(sol.x);
 % worldCoords(2) = round(sol.y);
 % Pin hole model
