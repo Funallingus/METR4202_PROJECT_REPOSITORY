@@ -14,10 +14,10 @@ if(~scene)
     scene = imread('fiducial_test_image.jpg');
 end
 
-fiducial_1 = imread('fiducial_calibration_image_1.png');
-fiducial_2 = imread('fiducial_calibration_image_2.png');
-fiducial_3 = imread('fiducial_calibration_image_3.png');
-fiducial_4 = imread('fiducial_calibration_image_4.png');
+fiducial_1 = imread('Fiducial image library/fiducial_calibration_image_1.png');
+fiducial_2 = imread('Fiducial image library/fiducial_calibration_image_2.png');
+fiducial_3 = imread('Fiducial image library/fiducial_calibration_image_3.png');
+fiducial_4 = imread('Fiducial image library/fiducial_calibration_image_4.png');
 fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4};
 
 disp('Convert scene to grayscale and extract features');
@@ -71,7 +71,7 @@ centroid(1) = (newBoxPolygon(4, 1) + newBoxPolygon(2, 1)) / 2;
 centroid(2) = (newBoxPolygon(4, 2) + newBoxPolygon(2, 2)) / 2;
 
 
-figure;
+figure(10);
 imshow(scene);
 hold on;
 line(newBoxPolygon(:, 1), newBoxPolygon(:, 2), 'Color', 'r');

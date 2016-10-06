@@ -11,6 +11,8 @@ referenceFeatures = referenceLibrary{3};
 compositeImages = compositeLibrary{1};
 compositeFeatures = compositeLibrary{3};
 
+
+
 %%
 
 %scale image down to improve processing time
@@ -24,8 +26,8 @@ J = imresize(currentImage, resize);
 K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
 F = edgesDetect(K, model); 
-%thresh = adaptthresh(F, 0.4);
-BW = imbinarize(F, graythresh(F));
+thresh = adaptthresh(F, 0.2);
+BW = imbinarize(F, thresh);
 
 toc;
 
