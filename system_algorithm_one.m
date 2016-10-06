@@ -3,6 +3,10 @@ initalize_system
 %%calibrate camera and find origin%%
 [frame, time, meta] = capture_frame(colorVid, depthVid);
 [feducialBox, feducialCentroid ] = find_fiducial(frame);
+
+xMap = abs(feducialBox(2, 1) - feducialBox(1, 1)) / 40;
+yMap = abs(feducialBox(3, 2) - feducialBox(2, 2)) / 40;
+
 %%
 %capture image
 [frame, time, meta] = capture_frame(colorVid, depthVid);
@@ -19,7 +23,6 @@ knownLocation = [];
 for i = 1 : size(boxDimensions, 2);
     knownLocation = [knownLocation; boxDimensions{i}];
     
-   fprintf('Domino detected at x: %g y: %g\n', boxDimensions{i}(1) + boxDimensions{i}(3)/2, boxDimensions{i}(2) - boxDimensions{i}(4)/2);
 end
 previousImage = frame;
 dominoLocationHistory = [];

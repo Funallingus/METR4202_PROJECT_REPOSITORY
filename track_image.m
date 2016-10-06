@@ -14,7 +14,7 @@ tic;
 
 %%get image of objects that moved
 sub = imsubtract(previousIm, currentIm);
-%imshow(sub); hold on;
+%figure; imshow(sub); hold on;
 [maxY, maxX] = size(sub);
 %%search around domnino's in moved image for white -> a moved domino
 %%update location coordinates
@@ -50,7 +50,7 @@ for i = 1:numDomino
     if rangeX < 0
         rangeX = 0;
     end
-    range = sub((refY):(rangeY),(refX):(rangeX),:);
+    range = imcrop(sub, [refX,refY,extraX*3+width,extraY*2+height]);
     range = im2bw(range);
     [coordX1, coordY1] = track_domino(range);
     %[coordX1, coordY1] = track_domino(extraX*3+width, extraY*3+height, range);
@@ -60,9 +60,10 @@ for i = 1:numDomino
         locations(i, 1) = globalCoord(1);
         locations(i, 2) = globalCoord(2);
     end
+    %locations;
  end
 
-locations;
+
 
 
 % 

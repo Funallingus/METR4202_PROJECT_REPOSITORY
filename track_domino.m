@@ -12,29 +12,34 @@ if sum(abs(range)) == 0
     coordX = 0;
     coordY = 0;
 else
-    max = 400;
-    current = 0;
-    coord = [0,0];
-    range = bwmorph(range, 'thicken');
-    %figure; imshow(range); hold on;
-    status = 0;
-    while current < max
-        i = randi([1,width]);%rangeX*3+width]);
-        j = randi([1,height]);%rangeY*3+height]);
-        intensity = impixel(range, j, i);
-        if intensity(1) > 0
-            coord = [j,i];
-            break;
-        end
-        current = current + 1;
-    end
+%     max = 400;
+%     current = 0;
+%     coord = [0,0];
+%     range = bwmorph(range, 'thicken', 6);
+%     figure; imshow(range); hold on;
+%     status = 0;
+%     while current < max
+%         i = randi([1,width]);%rangeX*3+width]);
+%         j = randi([1,height]);%rangeY*3+height]);
+%         intensity = impixel(range, j, i);
+%         if intensity(1) > 0
+%             coord = [j,i];
+%             break;
+%         end
+%         current = current + 1;
+%     end
+%     toc;
+%     current;
+%     coord;
+%     max;
+    tic;
+    [u,v] = find(range);
+    coordY = min(u)
+    coordX = min(v)
     toc;
-    current;
-    coord;
-    max;
-
-    coordX = coord(1);
-    coordY = coord(2);
+    %[coordX, coordY] = [min(u), min(v)];
+    %coordX = coord(1);
+    %coordY = coord(2);
 
 end
 
