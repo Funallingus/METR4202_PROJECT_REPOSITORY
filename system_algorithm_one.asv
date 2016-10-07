@@ -70,7 +70,6 @@ while 1
    [newLocation] = track_image(knownLocation,previousImage,currentImage);
    
    %update figure with current image
-   figure(30);
    set(cim, 'cdata', currentImage);
    drawnow;
    %place a dot at all previous tracked locations
@@ -95,7 +94,7 @@ while 1
             x = [x1-width/2, x2, x2, x1-width/2, x1-width/2];
             y = [y1+height/2, y1+height/2, y2, y2, y1+height/2];
         end
-        hold on; result(i) = plot(x, y, 'LineWidth', 2, 'Color', 'k'); hold off;
+        hold on; result(i) = plot(x, y, 'LineWidth', 2); hold off;
         distance = sqrt((knownLocation(i, 1) - (newLocation(i, 1)))^2 + ((knownLocation(i, 2) - (newLocation(i, 2)))^2)); %change in difference
         speed = distance/(time - previousTime);
         %fprintf('Speed: %g pixels/s, distance: %g \n', speed, distance);
@@ -104,7 +103,6 @@ while 1
    
    if j == 0
        allLoc = newLocation;
-       
        %incrTime = time-previousTime;
    elseif mod(j,6) == 0
        count = count+1;
@@ -114,16 +112,17 @@ while 1
        j = 0;
        incrTime = time - previousTime;
        for i = 1:numDomino
-           for k = 0 : count - 1
+           for k = 0:count
+               
+               allLoc
                sumXPix = sum(allLoc(i+k*numDomino, 1))/4;
                sumYPix = sum(allLoc(i+k*numDomino, 2))/4;
                dist = sqrt(sumXPix^2 + sumYPix^2);
                vel = dist/incrTime;
-
+               fprintf('Vel: %g pixels/s, dist: %g, time: %g\n', dist/incrTime, dist, incrTime);
 
            end
-        fprintf('Domino %g velocity: %g pixels/s, dist: %g, time: %g\n', i, dist/incrTime, dist, incrTime);
-        allLoc(i) = 0;
+       allLoc(i) = 0;
        end
    previousTime = time;
    count = 0;

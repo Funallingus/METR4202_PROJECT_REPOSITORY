@@ -157,7 +157,7 @@ for i = 1 : size(dominoCandidate, 2)
                                             index, referenceImages, referenceFeatures);
         dominoMatch{count} = match;
         dominoPose{count} = pose;
-        fprintf('Domino detected at x: %g y: %g\n', dominoBoxDimensions{count}(1)...
+        fprintf('Domino %g detected at x: %g y: %g\n', count, dominoBoxDimensions{count}(1)...
             + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
         fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
         distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], [dominoBoxDimensions{count}(2), dominoBoxDimensions{count}(1)], depthIm);
