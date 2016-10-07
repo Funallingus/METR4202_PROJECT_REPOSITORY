@@ -160,7 +160,7 @@ for i = 1 : size(dominoCandidate, 2)
         fprintf('Domino detected at x: %g y: %g\n', dominoBoxDimensions{count}(1)...
             + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
         fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
-        distance = getRealDistance(round(feducialCentroid), [dominoBoxDimensions{count}(1), dominoBoxDimensions{count}(2)], depthIm);
+        distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], [dominoBoxDimensions{count}(2), dominoBoxDimensions{count}(1)], depthIm);
         fprintf('Distance to domino %s from origin: %g\n', dominoString{index}, distance);
         count = count + 1;
     end
