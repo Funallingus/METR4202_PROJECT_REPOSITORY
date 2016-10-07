@@ -57,6 +57,7 @@ camMatrix = cameraMatrix(cameraParams, ...
         cameraParams.RotationMatrices(:,:,lastIndex), ...
         cameraParams.TranslationVectors(lastIndex, :));
 
+camMatrix = transpose(camMatrix);
 
 % Display errors
 displayErrors(estimationErrors, cameraParams)

@@ -2,15 +2,14 @@ fprintf('Train system...');
 initalize_system
 fprintf('Done\n');
 %%calibrate camera and find origin%%
-[frame, time, meta] = capture_frame(colorVid, depthVid);
+[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 [feducialBox, feducialCentroid ] = find_fiducial(frame);
 
-xMap = abs(feducialBox(2, 1) - feducialBox(1, 1)) / 40;
-yMap = abs(feducialBox(3, 2) - feducialBox(2, 2)) / 40;
+%%calculate origin
 
 %%
 %capture image
-[frame, time, meta] = capture_frame(colorVid, depthVid);
+[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 
 
 %%
@@ -18,11 +17,14 @@ yMap = abs(feducialBox(3, 2) - feducialBox(2, 2)) / 40;
 [domino, boxDimensions, match, pose] = edge_detection(frame, model,...
                     referenceLibrary, compositeLibrary, dice, feducialCentroid);
 
+%
+
 %%
 %%%track domino%%%
 knownLocation = [];
 for i = 1 : size(boxDimensions, 2);
     knownLocation = [knownLocation; boxDimensions{i}];
+
     
 end
 previousImage = frame;
@@ -57,11 +59,13 @@ j = 0;
 for j = 1:numDomino
     result(j) = 0;
 end
+
 previousTime = time;
+
 while 1
 %for i = 1:9
    %do the tracking thing 
-   [currentImage, time, meta] = capture_frame(colorVid, depthVid);
+   [currentImage, depthIm, time, meta] = capture_frame(colorVid, depthVid);
    
    [newLocation] = track_image(knownLocation,previousImage,currentImage);
    

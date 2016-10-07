@@ -7,7 +7,7 @@ camMatrix = evalin('base', 'camMatrix');
 intrinsics = evalin('base', 'cameraParams.IntrinsicMatrix');
 intrinsics = transpose(intrinsics);
 cameraParams = evalin('base', 'cameraParams');
-extrinsics = evalin('base', 'invExtrinsics')
+extrinsics = evalin('base', 'extrinsics')
 fx = cameraParams.FocalLength(1);
 fy = cameraParams.FocalLength(2);
 
