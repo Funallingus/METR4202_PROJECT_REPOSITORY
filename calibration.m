@@ -54,8 +54,8 @@ cameraParams.TranslationVectors(lastIndex,:)
 
 % Form camera matrix from intrinsics matrix, translation and rotation vectors
 camMatrix = cameraMatrix(cameraParams, ...
-        cameraParams.RotationMatrices(:,:,lastIndex), ...
-        cameraParams.TranslationVectors(lastIndex, :));
+        double(cameraParams.RotationMatrices(:,:,lastIndex)), ...
+        double(cameraParams.TranslationVectors(lastIndex, :)));
 
 camMatrix = transpose(camMatrix);
 

@@ -7,7 +7,8 @@ camMatrix = evalin('base', 'camMatrix');
 intrinsics = evalin('base', 'cameraParams.IntrinsicMatrix');
 intrinsics = transpose(intrinsics);
 cameraParams = evalin('base', 'cameraParams');
-extrinsics = evalin('base', 'extrinsics')
+extrinsics = evalin('base', 'extrinsics');
+extrinsics = double(extrinsics);
 fx = cameraParams.FocalLength(1);
 fy = cameraParams.FocalLength(2);
 
@@ -27,9 +28,9 @@ F_depth = 365.7; % mms
 
 
 % Z coordinate
-z = double(depthIm(pixelCoords(1), pixelCoords(2)))
+z = double(depthIm(pixelCoords(1), pixelCoords(2)));
 
-pixelCoords
+pixelCoords;
 
 pixelCoords1 = double(pixelCoords(1));
 pixelCoords2 = double(pixelCoords(2));
@@ -38,8 +39,8 @@ camMat13 = (camMatrix(1,3));
 camMat24 = (camMatrix(2,4));
 camMat23 = (camMatrix(2,3));
 
-rhs1 = double(pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z)
-rhs2 = double(pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z)
+rhs1 = double(pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z);
+rhs2 = double(pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z);
 
 syms x y
 
@@ -57,9 +58,7 @@ sol = solve([eqn1, eqn2], [x, y]);
 X = linsolve(A, B);
 
 %% Use camMatrix Directly (4x3)
-camMatrix = transpose(camMatrix)
-camMatrix(:,4) = [0 0 0 1];
-
+% camMatrix = transpose(camMatrix)
 
 % worldCoords(1) = sol.x
 % worldCoords(2) = sol.y
@@ -82,8 +81,6 @@ pinHoleCoords(3) = z;
 
 pinHoleCoords(4) = 1;
 
-pinHoleCoords
-
 % Relative to the camera origin
 % worldCoords = pinHoleCoords;
 
@@ -98,7 +95,7 @@ transVector(4) = 1;
 transMatrix = eye(4);
 transMatrix(:, 4) = transVector;
 
-% worldCoords = transMatrix * pinHoleCoords';
+worldCoords = transMatrix * pinHoleCoords';
 
 % Rotate the pinhole frame
 rotationMatrix = eye(4);
@@ -106,8 +103,8 @@ rotationMatrix(1:3, 1:3) = cameraParams.RotationMatrices(:, :, lastIndex);
 % worldCoords = rotationMatrix * worldCoords;
 
 % Transform to placed frame using inv(extrinsics) matrix (transformation matrix)
-class pinHoleCoords
-worldCoords = extrinsics * pinHoleCoords';
+class pinHoleCoords;
+% worldCoords = extrinsics * pinHoleCoords';
 
 
 %% Using complete camera model (equations are above)
