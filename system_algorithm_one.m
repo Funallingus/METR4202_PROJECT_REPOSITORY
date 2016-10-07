@@ -1,4 +1,5 @@
 fprintf('Train system...');
+close all
 initalize_system
 fprintf('Done\n');
 %%calibrate camera and find origin%%

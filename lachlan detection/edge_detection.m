@@ -20,7 +20,7 @@ poseString = {'flat', 'upright', 'sideways'};
 %%
 
 %scale image down to improve processing time
-resize = 0.5;
+resize = 0.75;
 % load
 %currentImage = imread('test.jpg');
 %currentImage = imread('Tracking sequence 1/sequence_1.jpg');
@@ -150,6 +150,7 @@ for i = 1 : size(dominoCandidate, 2)
         strmax = ['Domino = ', dominoString{index}];
         text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
             'FontSize', 8);
+        drawnow;
         domino{count} = dominoCandidate{i};
         dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
         %dominoMatch{count} = compositeImages{index};
@@ -160,7 +161,8 @@ for i = 1 : size(dominoCandidate, 2)
         fprintf('Domino %g detected at x: %g y: %g\n', count, dominoBoxDimensions{count}(1)...
             + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
         fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
-        distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], [dominoBoxDimensions{count}(2), dominoBoxDimensions{count}(1)], depthIm);
+        distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], ...
+                    [round(dominoBoxDimensions{count}(2)), round(dominoBoxDimensions{count}(1))], depthIm);
         fprintf('Distance to domino %s from origin: %g\n', dominoString{index}, distance);
         count = count + 1;
     end
