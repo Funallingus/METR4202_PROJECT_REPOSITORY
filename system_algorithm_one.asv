@@ -103,17 +103,14 @@ while 1
    elseif j ~= 4
        incrTime = incrTime + time - previousTime;
        allLoc = [allLoc; newLocation];
-   elseif j == 4
-       j = 0;
+   else 
        for i = 1:numDomino
            for k = 0:3
-               allLoc
                sumXPix = sum(allLoc(i+k*numDomino, 1))/4;
                sumYPix = sum(allLoc(i+k*numDomino, 2))/4;
                dist = sqrt(sumXPix^2 + sumYPix^2);
                vel = dist/incrTime;
-               fprintf('Vel: %g pixels/s, dist: %g \n', dist/incrTime, dist);
-
+               fprintf('Speed: %g pixels/s, distance: %g \n', dist/incrTime, dist);
            end
        allLoc(i) = 0;
        end

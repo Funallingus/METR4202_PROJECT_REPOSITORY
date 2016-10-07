@@ -24,8 +24,8 @@ resize = 0.5;
 % load
 %currentImage = imread('test.jpg');
 %currentImage = imread('Tracking sequence 1/sequence_1.jpg');
-disp('Detect edges from image');
-tic; 
+fprintf('Detect edges from image...');
+
 J = imresize(currentImage, resize);
 K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
@@ -33,7 +33,7 @@ F = edgesDetect(K, model);
 thresh = adaptthresh(F, 0.2);
 BW = imbinarize(F, graythresh(F));
 
-toc;
+
 
 %figure(1); im(F);
 %figure(2); im(K);
@@ -54,8 +54,9 @@ end
 %}
 %%
 %%Plot bouding boxes found via bwboudnaries
-disp('Filter bad candidates');
-tic;
+fprintf('Done\n');
+fprintf('Filter bad candidates...');
+
 blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area');
 numberOfBlobs = size(blobMeasurements, 1);
 
@@ -166,8 +167,8 @@ for i = 1 : size(dominoCandidate, 2)
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'r');
     end
 end
+fprintf('Done\n');
 
-toc;
 
 end
 

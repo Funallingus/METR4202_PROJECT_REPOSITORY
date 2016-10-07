@@ -29,9 +29,9 @@ scenePoints = detectSURFFeatures(sceneGray);
 
 
 
-fprintf('Done\n');
-fprintf('Extract and match fiducial features...');
-
+fprintf('
+disp('Extract and match fiducial features');
+tic;
 boxPairs = [];
 index = 1;
 
@@ -46,12 +46,12 @@ for i = 1 : size(fiducial, 2)
         index = i;
     end
 end
+toc;
 
 
 
-fprintf('Done\n');
-fprintf('Match features...');
-
+disp('Match features');
+tic;
 
 matchedFiducialPoints = fiducialPoints(boxPairs(:, 1), :);
 matchedScenePoints = scenePoints(boxPairs(:, 2), :);
@@ -66,7 +66,7 @@ boxPolygon = [1, 1;...                           % top-left
         1, size(fiducial{index}, 1);...                 % bottom-left
         1, 1];                   % top-left again to close the polygon
 newBoxPolygon = transformPointsForward(tform, boxPolygon);
-
+toc;
 
 centroid(1) = (newBoxPolygon(4, 1) + newBoxPolygon(2, 1)) / 2;
 centroid(2) = (newBoxPolygon(4, 2) + newBoxPolygon(2, 2)) / 2;
@@ -78,7 +78,5 @@ hold on;
 line(newBoxPolygon(:, 1), newBoxPolygon(:, 2), 'Color', 'r');
 scatter(centroid(1), centroid(2), 'Marker', 'x');
 title('Detected Box');
-
-fprintf('Done\n');
 end
 

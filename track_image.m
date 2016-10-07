@@ -56,7 +56,7 @@ for i = 1:numDomino
     %[coordX1, coordY1] = track_domino(extraX*3+width, extraY*3+height, range);
     if coordX1 ~= 0
         %% found domino
-        globalCoord = [refX + coordX1, refY+coordY1]
+        globalCoord = [refX + coordX1, refY+coordY1];
         locations(i, 1) = globalCoord(1);
         locations(i, 2) = globalCoord(2);
     end

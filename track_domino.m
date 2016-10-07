@@ -5,10 +5,10 @@ function [ coordX, coordY ] = track_domino(range)
 %   back to location of previous image (domino didnt move), otherwise
 %   returns the new coordinates.
 [height, width] = size(range);
-tic;
+
 
 if sum(abs(range)) == 0
-    display('no Domino')
+    %display('no Domino')
     coordX = 0;
     coordY = 0;
 else
@@ -32,11 +32,9 @@ else
 %     current;
 %     coord;
 %     max;
-    tic;
     [u,v] = find(range);
-    coordY = min(u)
-    coordX = min(v)
-    toc;
+    coordY = min(u);
+    coordX = min(v);
     %[coordX, coordY] = [min(u), min(v)];
     %coordX = coord(1);
     %coordY = coord(2);
