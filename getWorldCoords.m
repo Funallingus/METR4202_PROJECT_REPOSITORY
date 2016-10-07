@@ -38,12 +38,12 @@ camMat13 = (camMatrix(1,3));
 camMat24 = (camMatrix(2,4));
 camMat23 = (camMatrix(2,3));
 
-rhs1 = (pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z)
-rhs2 = (pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z)
+rhs1 = double(pixelCoords1 - camMatrix(1,4) - camMatrix(1,3)*z)
+rhs2 = double(pixelCoords2 - camMatrix(2,4) - camMatrix(2,3)*z)
 
 syms x y
 
-% Break matrix down into two equations to solve for X and Y in world
+%% Break matrix down into two equations to solve for X and Y in world
 % coordinates given u and v pixel coordinates
 eqn1 = camMatrix(1,1)*x + camMatrix(1,2)*y  == rhs1;
     
@@ -52,11 +52,27 @@ eqn2 = camMatrix(2,1)*x + camMatrix(2,2)*y  == rhs2;
 eqn3 = camMatrix(3,1)*x + camMatrix(3,2)*y == 1;
 
 sol = solve([eqn1, eqn2], [x, y]);
+
 [A,B] = equationsToMatrix([eqn1, eqn2], [x, y]);
 X = linsolve(A, B);
 
-% worldCoords(1) = sol.x;
-% worldCoords(2) = sol.y;
+%% Use camMatrix Directly (4x3)
+camMatrix = transpose(camMatrix)
+camMatrix(:,4) = [0 0 0 1];
+
+
+% worldCoords(1) = sol.x
+% worldCoords(2) = sol.y
+% worldCoords(3) = z
+
+%% using linsolve
+% worldCoords(1) = double(X(1))
+% worldCoords(2) = double(X(2))
+% worldCoords(3) = z;
+
+%% using solve
+% worldCoords(1) = double(sol.x)
+% worldCoords(2) = double(sol.y)
 % worldCoords(3) = z;
 
 %% Pinhole then transformation using extrinsics
@@ -72,11 +88,26 @@ pinHoleCoords
 % worldCoords = pinHoleCoords;
 
 % Apply the transformation matrix
-worldCoords = extrinsics * pinHoleCoords';
+
+% worldCoords = extrinsics * pinHoleCoords';
+
+lastIndex = size(cameraParams.TranslationVectors, 1);
+% Translate the pinhole frame
+transVector = cameraParams.TranslationVectors(lastIndex, :);
+transVector(4) = 1;
+transMatrix = eye(4);
+transMatrix(:, 4) = transVector;
+
+% worldCoords = transMatrix * pinHoleCoords';
+
+% Rotate the pinhole frame
+rotationMatrix = eye(4);
+rotationMatrix(1:3, 1:3) = cameraParams.RotationMatrices(:, :, lastIndex);
+% worldCoords = rotationMatrix * worldCoords;
 
 % Transform to placed frame using inv(extrinsics) matrix (transformation matrix)
 class pinHoleCoords
-% worldCoords = extrinsics * pinHoleCoords';
+worldCoords = extrinsics * pinHoleCoords';
 
 
 %% Using complete camera model (equations are above)

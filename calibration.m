@@ -44,7 +44,7 @@ getCameraParams;
 matSize = size(cameraParams.TranslationVectors);
 lastIndex = matSize(1);
 cameraParams.RotationMatrices(:,:,lastIndex)
-cameraParams.TranslationVectors(lastIndex,:)
+cameraParams.TranslationVectors(lastIndex,:) 
 
 [extrinsics, invExtrinsics, camMatrix] = ...
     getCameraMatrix(cameraParams.IntrinsicMatrix,...
