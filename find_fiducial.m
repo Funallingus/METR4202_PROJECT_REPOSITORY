@@ -21,7 +21,7 @@ fiducial_4 = imread('Fiducial image library/fiducial_calibration_image_4.png');
 fiducial_5 = imread('Fiducial image library/fiducial_calibration_image_5.png');
 fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4, fiducial_5};
 
-fprintf('Convert scene to grayscale and extract features...');
+fprintf('Grayscale scene and extract features...');
 
 sceneGray = rgb2gray(scene);
 scenePoints = detectSURFFeatures(sceneGray);
@@ -30,7 +30,7 @@ scenePoints = detectSURFFeatures(sceneGray);
 
 
 fprintf('Done\n');
-fprintf('Extract and match fiducial features...');
+fprintf('Extract & match fiducial features...');
 
 boxPairs = [];
 index = 1;
