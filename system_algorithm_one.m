@@ -55,13 +55,13 @@ drawnow;
 result = [];
 allLoc = [];
 aveDist = [];
-j = 0;
+
 for j = 1:numDomino
     result(j) = 0;
 end
 
 previousTime = time;
-
+j = 1;
 while 1
 %for i = 1:9
    %do the tracking thing 
