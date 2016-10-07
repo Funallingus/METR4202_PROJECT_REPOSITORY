@@ -5,6 +5,8 @@ fprintf('Done\n');
 [frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 [feducialBox, feducialCentroid ] = find_fiducial(frame);
 
+
+speedCalibration = (feducialBox(2, 1) - feducialBox(1,1))/50;
 %%calculate origin
 
 %%
@@ -122,7 +124,8 @@ while 1
 
 
            end
-        fprintf('Domino %g velocity: %g pixels/s, dist: %g, time: %g\n', i, dist/incrTime, dist, incrTime);
+        fprintf('Domino %g velocity: %g pixels/s; %g mm/s; dist: %g mm, time: %g s\n', i, dist/incrTime, ...
+                        dist/incrTime/speedCalibration, dist/speedCalibration, incrTime);
         allLoc(i) = 0;
        end
    previousTime = time;
