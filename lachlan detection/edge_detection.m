@@ -20,7 +20,7 @@ poseString = {'flat', 'upright', 'sideways'};
 %%
 
 %scale image down to improve processing time
-resize = 0.75;
+resize = 0.5;
 % load
 %currentImage = imread('test.jpg');
 %currentImage = imread('Tracking sequence 1/sequence_1.jpg');
@@ -30,7 +30,6 @@ J = imresize(currentImage, resize);
 K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
 F = edgesDetect(K, model); 
-thresh = adaptthresh(F, 0.2);
 BW = imbinarize(F, graythresh(F));
 
 

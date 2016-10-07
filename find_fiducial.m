@@ -1,4 +1,4 @@
-function [boxPolygon, centroid] = find_fiducial(scene)
+function [boxPolygon, centroid] = find_fiducial(scene, depthIm)
 %{
 function takes a rgb image of a scene and attempts to 
 match a checkerboard fiducial
@@ -78,6 +78,10 @@ hold on;
 line(newBoxPolygon(:, 1), newBoxPolygon(:, 2), 'Color', 'r');
 scatter(centroid(1), centroid(2), 'Marker', 'x');
 title('Detected Box');
+
+distance = depthIm(round(centroid(2)), round(centroid(1)));
+
+fprintf('Distance to fiducial: %g mm\n', distance);
 
 fprintf('Done\n');
 end

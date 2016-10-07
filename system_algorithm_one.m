@@ -4,7 +4,7 @@ initalize_system
 fprintf('Done\n');
 %%calibrate camera and find origin%%
 [frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
-[feducialBox, feducialCentroid ] = find_fiducial(frame);
+[feducialBox, feducialCentroid ] = find_fiducial(frame, dpethIm);
 
 
 speedCalibration = (feducialBox(2, 1) - feducialBox(1,1))/50;
@@ -117,14 +117,18 @@ while 1
        j = 0;
        incrTime = time - previousTime;
        for i = 1:numDomino
+           sumXPix = 0;
+           sumYPix = 0;
            for k = 0 : count - 1
-               sumXPix = sum(allLoc(i+k*numDomino, 1))/4;
-               sumYPix = sum(allLoc(i+k*numDomino, 2))/4;
+               sumXPix = sumXPix + allLoc(i+k*numDomino, 1);
+               sumYPix = sumYPix + allLoc(i+k*numDomino, 2);
                dist = sqrt(sumXPix^2 + sumYPix^2);
-               vel = dist/incrTime;
-
 
            end
+           aveXPix = sumXPix/count;
+           aveYPix = sumYPix/count;
+           dist = sqrt(aveXPix^2 + aveYPix^2);
+           cel = dist/incrTime;
         fprintf('Domino %g velocity: %g pixels/s; %g mm/s; dist: %g mm, time: %g s\n', i, dist/incrTime, ...
                         dist/incrTime/speedCalibration, dist/speedCalibration, incrTime);
         allLoc(i) = 0;
