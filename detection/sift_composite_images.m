@@ -28,11 +28,21 @@ compositeImages{26} = imread('SURF composite images/domino_66.jpg');
 
 for i = 1 : size(compositeImages, 2);
     compositeImages{i} = rgb2gray(compositeImages{i});
+    dominoPoints = detectMSERFeatures(compositeImages{i});
+    [dominoFeatures, dominoPoints] = extractFeatures(...
+            compositeImages{i}, dominoPoints);
+    compositeMSERFeatures{i} = dominoFeatures;
+    compositeMSERPoints{i} = dominoPoints;
+end
+
+for i = 1 : size(compositeImages, 2);
     dominoPoints = detectSURFFeatures(compositeImages{i});
     [dominoFeatures, dominoPoints] = extractFeatures(...
             compositeImages{i}, dominoPoints);
-    compositeFeatures{i} = dominoFeatures;
-    compositePoints{i} = dominoPoints;
+    compositeSURFFeatures{i} = dominoFeatures;
+    compositeSURFPoints{i} = dominoPoints;
 end
 
-compositeLibrary = {compositeImages, compositePoints, compositeFeatures};
+compositeLibrarySURF = {compositeImages, compositeSURFPoints, compositeSURFFeatures};
+
+compositeLibraryMSER = {compositeImages, compositeMSERPoints, compositeMSERFeatures};

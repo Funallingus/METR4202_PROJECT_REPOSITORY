@@ -1,6 +1,6 @@
 %% Captures an image with the Kinect and saves it with the given filename
 
-function [colorIm depthIm] = captureJpeg(filename, colorVid, depthVid)
+function captureJpeg(filename, colorVid, depthVid)
     
     %Trigger a frame request
     trigger([colorVid depthVid])

@@ -1,5 +1,5 @@
 function [domino, dominoBoxDimensions, dominoMatch, dominoPose] = ...
-                edge_detection(currentImage, model, compositeLibrarySURF, compositeLibraryMSER, dice)
+                edge_detection(currentImage, depthIm, model, referenceLibrary, compositeLibrarySURF, compositeLibraryMSER,dice)
 %close all
 %%function takes in a 1980x1020 image
 %%
@@ -121,7 +121,7 @@ for i = 1 : size(dominoCandidate, 2)
        [dominoCandidatePairsMSER, status] = matchFeatures(...
                     compositeFeaturesMSER{j}, candidateFeatures);
        %%if a better match found update matches features array
-       dominoCandidatePairsSearch = [dominoCandidatePairsSURF; dominoCandidatePairsMSER];
+       dominoCandidatePairsSearch = [domino
        if size(dominoCandidatePairs) < size(dominoCandidatePairsSearch)
           dominoCandidatePairs = dominoCandidatePairsSearch;
           index = j;
@@ -158,16 +158,16 @@ for i = 1 : size(dominoCandidate, 2)
         domino{count} = dominoCandidate{i};
         dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
         %dominoMatch{count} = compositeImages{index};
-%         [match, pose] = identify_domino(candidateFeatures, ...
-%                                             index, referenceImages, referenceFeatures);
-%         dominoMatch{count} = match;
-%         dominoPose{count} = pose;
-%         fprintf('Domino %g detected at x: %g y: %g\n', count, dominoBoxDimensions{count}(1)...
-%             + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
-%         fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
-%         distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], ...
-%                     [round(dominoBoxDimensions{count}(2)), round(dominoBoxDimensions{count}(1))], depthIm);
-%         fprintf('Distance to domino %s from origin: %g\n', dominoString{index}, distance);
+        [match, pose] = identify_domino(candidateFeatures, ...
+                                            index, referenceImages, referenceFeatures);
+        dominoMatch{count} = match;
+        dominoPose{count} = pose;
+        fprintf('Domino %g detected at x: %g y: %g\n', count, dominoBoxDimensions{count}(1)...
+            + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
+        fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
+        distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], ...
+                    [round(dominoBoxDimensions{count}(2)), round(dominoBoxDimensions{count}(1))], depthIm);
+        fprintf('Distance to domino %s from origin: %g\n', dominoString{index}, distance);
         count = count + 1;
     end
     
