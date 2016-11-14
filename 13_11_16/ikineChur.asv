@@ -13,7 +13,7 @@ if setting <=0
 
     theta1 = atan2(S_theta1, C_theta1)*180/pi;
     theta2 = theta2*180/pi;
-    A = [theta1, theta2];
+    A = [theta1, theta2]
 elseif setting > 0
     % solution 2
     theta2 = -acos(K);
@@ -22,7 +22,7 @@ elseif setting > 0
 
     theta1 = atan2(S_theta1, C_theta1)*180/pi;
     theta2 = theta2*180/pi;
-    A = [theta1, theta2];
+    B = [theta1, theta2]
 end
 % return a matrix A containing the arm's angle values for the given point
 %A = [theta1, theta2];

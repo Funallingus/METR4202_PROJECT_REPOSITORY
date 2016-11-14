@@ -38,9 +38,7 @@ if x2 == 0
     quad2 = quad1;
 end
 
-quad1
-quad2
-
+quad
 %% altenative way of dealing with quadrant correction
 sign = 1;
 loadlibrary('dynamixel', 'dynamixel.h');
@@ -147,13 +145,12 @@ end
 %% calculate angles
 initAngles = ikineChur(startPos(1), startPos(2), startPos(3), d1, a1, a2, quad);
 nextAngles = ikineChur(nextPos(1), nextPos(2), nextPos(3), d1, a1, a2, quad);
-quad
+
 theta1 = (nextAngles(1) - initAngles(1));
-%theta2 = sign*(nextAngles(2) - initAngles(2));
-theta2 = (nextAngles(2) - initAngles(2));
+theta2 = sign*(nextAngles(2) - initAngles(2));
+
 delta1 = theta1
 delta2 = theta2
-quad
 
 steps = round(theta1*1024/300);
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
@@ -180,7 +177,7 @@ delta2
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
 
-moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
+% moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
 
 
 end

@@ -13,10 +13,10 @@ Size = size(Sequence);
 Length = length(Sequence)/3;
 
 for x = 1:(Length-1)
-    Length
-    x = 3*(x -1) +1
-    A = Sequence(x:(x+2))
-    B = Sequence((x+3):(x+5))
+    Length;
+    x = 3*(x -1) +1;
+    A = Sequence(x:(x+2));
+    B = Sequence((x+3):(x+5));
     
     LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
 end
