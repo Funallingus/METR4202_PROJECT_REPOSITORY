@@ -104,8 +104,9 @@ i = 1;
 if xTarget == xStart
     x = xStart;
     y = yStart;
+    Optimal_path(1,1) = xStart;
+    Optimal_path(1,2) = yStart;
     while y ~= yTarget
-%     for y = yStart:yTarget
         if yTarget > yStart
             y = y + 1;
         else 
@@ -122,6 +123,8 @@ if xTarget == xStart
     end
 else
     x = xStart;
+    Optimal_path(1,1) = xStart;
+    Optimal_path(1,2) = yStart;
     while x ~= xTarget
         if xTarget > xStart
             x = x + 1;
