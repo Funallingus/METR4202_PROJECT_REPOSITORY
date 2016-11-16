@@ -43,7 +43,7 @@ else
         incr = 2;
     end
     presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
-    GOAL = presentPos + steps
+    GOAL = presentPos + steps;
 end
 
 % motor limits
@@ -74,13 +74,13 @@ elseif motorPort == 3
 %         calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 100); %USUALLY max 1023
     end
 end
-
+GOAL
 count = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
     calllib('dynamixel', 'dxl_write_word', motorPort, P_GOAL_POSITION, GOAL);
     if motorPort == 3 && angle > 29 && angle < 90 && presentPos > 650
-        presentVel = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_VEL))
+        presentVel = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_VEL));
         if presentVel < 1
             count = count + 1;
             if count > 10
@@ -88,7 +88,7 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
             end
         end
     end
-    presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION))
+    presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION));
 end
 
 

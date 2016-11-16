@@ -22,12 +22,13 @@ DHParam = [d1, a1, a2];
 %startPos = [0,a1+a2, 0];
 %startPos = [190, 130, 0];   % this could be anything, abort() leaves the arm out stretched, so there is no x component and the y is the sum of arm lengths, z is always 0
 %startPos = [-60, 200, 0];
-x1 = startPos(1);            % the x component deduces the quadrant motion should happen in -> the angle solution choice from ikineChur
-
+x1 = startPos(1)            % the x component deduces the quadrant motion should happen in -> the angle solution choice from ikineChur
+% startPos(2)
+% nextPos(2)
 quad1 = x1/abs(x1);        % quad1 will be 1 (right quadrant) or -1 (to the left); quad 1 is quadrant of the starting point
 %nextPos = [160, 60, 0];
 %nextPos = [60, 200, 0];    % the above steps is repeated for the next position to move to
-x2 = nextPos(1);
+x2 = nextPos(1)
 
 quad2 = x2/abs(x2);
 
@@ -73,11 +74,16 @@ else
     fprintf('in else');
     
     %% move to the middle position
+    c = (startPos(2)+nextPos(2))/2
+    if c < 230
+        c = 250
+    end
+    
     if sign < 0
-        midPos = [-20, 250, 0];   % defined mid position
+        midPos = [-20, c, 0];   % defined mid position
         quad = -1;
     else
-        midPos = [20, 250, 0];
+        midPos = [20, c, 0];
         quad = 1;
     end
     %quad = quad1;           % use ikineChur solution determined by the quadrant of the starting position
@@ -118,7 +124,7 @@ else
 %         moveArm(2, -5, 100, 1000, Port);
 %         moveArm(1, -5, 100, 1000, Port);
 %     end
-    lineIkine(a1, a2, 250, DEFAULT_PORTNUM);
+    lineIkine(a1, a2, c, DEFAULT_PORTNUM);
     %moveArm(2, sign*8, 50, 200, DEFAULT_PORTNUM);
 %     moveArm(2, 8, 50, 200, DEFAULT_PORTNUM);
     moveArm(3, -30, 100, 200, DEFAULT_PORTNUM);
@@ -179,7 +185,7 @@ else
     % need to move from midpoint to next position, the quadrant of choice is
     % the opposite to the starting position
 %     startPos = [-sign*5, 250, 0];
-    startPos = [0, 250, 0];
+    startPos = [0, c, 0];
     
 %     if sign < 0
 %         
@@ -235,7 +241,7 @@ delta2;
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
 
 moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
-moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
+%moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 
 
 end

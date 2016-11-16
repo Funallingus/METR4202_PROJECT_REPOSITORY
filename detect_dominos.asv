@@ -1,8 +1,8 @@
 %LAB2init;
 close all
-abort(3);
-moveArm(1, 110, 100, 500, 3);
-moveArm(2, 100, 100, 500, 3);
+% abort(3);
+% moveArm(1, 110, 100, 500, 3);
+% moveArm(2, 100, 100, 500, 3);
 
 clear cam;
 
@@ -17,7 +17,9 @@ init_webcam
 %[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 %imwrite(frame, 'workspace.jpg');
 snapshot(cam);
+tic;
 frame = snapshot(cam);
+
 [frame, cnrPoints] = detect_checkerboard(frame);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);
 [domino, dominoBoxDimensions, obstructionMap, centroid] = edge_detection(frame, ...
