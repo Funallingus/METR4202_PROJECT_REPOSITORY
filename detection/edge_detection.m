@@ -1,28 +1,23 @@
-function [domino, dominoBoxDimensions, dominoMatch, dominoPose] = ...
-                edge_detection(currentImage, model, compositeLibrarySURF, compositeLibraryMSER, dice)
+function [domino, dominoBoxDimensions, obstructionMap, centroid] = ...
+                edge_detection(currentImage, model, referenceLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
 %%
 %%%unpack data from reference image library%%%
-referenceImages = referenceLibrary{1};
-%referencePoints = referenceLibrary{2};
-referenceFeatures = referenceLibrary{3};
-
-compositeImages = compositeLibrarySURF{1};
-compositeFeaturesSURF = compositeLibrarySURF{3};
-
-compositeFeaturesMSER = compositeLibraryMSER{3};
-dominoString = {'0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2',...
-    '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4',...
-    '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'};
-
-poseString = {'flat', 'upright', 'sideways'};
+ referenceImages = referenceLibrary{1};
+ referencePoints = referenceLibrary{2};
+ referenceFeatures = referenceLibrary{3};
+% 
+% compositeImages = compositeLibrarySURF{1};
+% compositeFeaturesSURF = compositeLibrarySURF{3};
+% 
+% compositeFeaturesMSER = compositeLibraryMSER{3};
 
 
 %%
 
 %scale image down to improve processing time
-resize = 0.5;
+resize = 1;
 % load
 %currentImage = imread('test.jpg');
 %currentImage = imread('Tracking sequence 1/sequence_1.jpg');
@@ -52,13 +47,18 @@ for k=1:length(B),
      plot(boundary(:,2)/resize,boundary(:,1)/resize,'r','LineWidth',2);hold on;
     end
 end
+hold off;
 %}
+obstructionMap = ones(size(BW, 2), size(BW, 1));
+size(BW)
+size(obstructionMap);
+
 %%
 %%Plot bouding boxes found via bwboudnaries
 fprintf('Done\n');
 fprintf('Filter bad candidates...');
 
-blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area');
+blobMeasurements = regionprops(logical(BW), 'BoundingBox', 'MajorAxisLength', 'MinorAxisLength', 'Area', 'Orientation');
 numberOfBlobs = size(blobMeasurements, 1);
 
 %%crop domino candidates out of original image
@@ -76,18 +76,28 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
+        angle = 90 - blobMeasurements(k).Orientation;
+        dominoCentroid{index} = [(x1 + x2)/2, (y1 + y2)/2];
         x = [x1, x2, x2, x1, x1];
         y = [y1, y1, y2, y2, y1];
         dominoCanidate_box_dimensions{index} = [x1, y2, width, height];
         croppedImage = imcrop(currentImage, [x1, y1, width, height]);
-        dominoCandidate{index} = croppedImage;
+        %dominoCandidate{index} = croppedImage;
+        dominoCandidate{index} = imrotate(croppedImage, angle);
         dominoCandidateBox_x{index} = x;
         dominoCandidateBox_y{index} = y;
         index = index + 1;
-        %plot(x, y, 'LineWidth', 2);
+    end
+    if (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1)
+        for a = x1 : x2
+            for b = y1: y2
+                obstructionMap(round(a), round(b)) = 0;
+            end
+        end        
     end
 end
-%hold off
+obstructionMap = obstructionMap';
+%figure; imshow(obstructionMap);
 
 %%
 %%SURF matching of candidates cropped out of original image
@@ -114,14 +124,14 @@ for i = 1 : size(dominoCandidate, 2)
 %}
     dominoCandidatePairs = [];
     index = 0; %%index of matched image in referenceImage array
-    for j = 1 : size(compositeImages, 2)
+    for j = 1 : size(referenceImages, 2)
 %%compare candidates to reference image library  
-       [dominoCandidatePairsSURF, status] = matchFeatures(...
-                    compositeFeaturesSURF{j}, candidateFeatures);
+%        [dominoCandidatePairsSURF, status] = matchFeatures(...
+%                     compositeFeaturesSURF{j}, candidateFeatures);
        [dominoCandidatePairsMSER, status] = matchFeatures(...
-                    compositeFeaturesMSER{j}, candidateFeatures);
+                    referenceFeatures{j}, candidateFeatures);
        %%if a better match found update matches features array
-       dominoCandidatePairsSearch = [dominoCandidatePairsSURF; dominoCandidatePairsMSER];
+       dominoCandidatePairsSearch = dominoCandidatePairsMSER;
        if size(dominoCandidatePairs) < size(dominoCandidatePairsSearch)
           dominoCandidatePairs = dominoCandidatePairsSearch;
           index = j;
@@ -150,24 +160,18 @@ for i = 1 : size(dominoCandidate, 2)
 %}
     
     if size(dominoCandidatePairs, 2) > 1 && isDomino
-        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
-        strmax = ['Domino = ', dominoString{index}];
-        text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
-            'FontSize', 8);
-        drawnow;
+
         domino{count} = dominoCandidate{i};
         dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
-        %dominoMatch{count} = compositeImages{index};
-%         [match, pose] = identify_domino(candidateFeatures, ...
-%                                             index, referenceImages, referenceFeatures);
-%         dominoMatch{count} = match;
-%         dominoPose{count} = pose;
-%         fprintf('Domino %g detected at x: %g y: %g\n', count, dominoBoxDimensions{count}(1)...
-%             + dominoBoxDimensions{count}(3)/2, dominoBoxDimensions{count}(2) - dominoBoxDimensions{count}(4)/2);
-%         fprintf('Domino is %s; pose is %s\n', dominoString{index}, poseString{pose});
-%         distance = getRealDistance([round(feducialCentroid(2)), round(feducialCentroid(1))], ...
-%                     [round(dominoBoxDimensions{count}(2)), round(dominoBoxDimensions{count}(1))], depthIm);
-%         fprintf('Distance to domino %s from origin: %g\n', dominoString{index}, distance);
+        centroid{count} = dominoCentroid{i};
+        
+        plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
+        dotCount = find_circles(domino{count});
+        strmax = sprintf('Domino= %g:%g', dotCount(1), dotCount(2));
+        text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
+            'FontSize', 8);
+        drawnow; 
+        
         count = count + 1;
     end
     

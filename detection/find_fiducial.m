@@ -1,4 +1,4 @@
-function [boxPolygon, centroid] = find_fiducial(scene, depthIm)
+function centroid = find_fiducial(scene)
 %{
 function takes a rgb image of a scene and attempts to 
 match a checkerboard fiducial
@@ -19,7 +19,11 @@ fiducial_2 = imread('Fiducial image library/fiducial_calibration_image_2.png');
 fiducial_3 = imread('Fiducial image library/fiducial_calibration_image_3.png');
 fiducial_4 = imread('Fiducial image library/fiducial_calibration_image_4.png');
 fiducial_5 = imread('Fiducial image library/fiducial_calibration_image_5.png');
-fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4, fiducial_5};
+fiducial_6 = imread('Fiducial image library/fiducial_calibration_image_6.png');
+fiducial_7 = imread('Fiducial image library/fiducial_calibration_image_7.png');
+fiducial_8 = imread('Fiducial image library/fiducial_calibration_image_8.png');
+fiducial = {fiducial_1, fiducial_2, fiducial_3, fiducial_4, fiducial_5,...
+    fiducial_6, fiducial_7, fiducial_8};
 
 fprintf('Grayscale scene and extract features...');
 
@@ -71,17 +75,6 @@ newBoxPolygon = transformPointsForward(tform, boxPolygon);
 centroid(1) = (newBoxPolygon(4, 1) + newBoxPolygon(2, 1)) / 2;
 centroid(2) = (newBoxPolygon(4, 2) + newBoxPolygon(2, 2)) / 2;
 
-
-figure(10);
-imshow(scene);
-hold on;
-line(newBoxPolygon(:, 1), newBoxPolygon(:, 2), 'Color', 'r');
-scatter(centroid(1), centroid(2), 'Marker', 'x');
-title('Detected Box');
-
-distance = depthIm(round(centroid(2)), round(centroid(1)));
-
-fprintf('Distance to fiducial: %g mm\n', distance);
 
 fprintf('Done\n');
 end

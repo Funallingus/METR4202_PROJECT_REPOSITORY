@@ -1,48 +1,39 @@
-compositeImages{1} = imread('SURF composite images/domino_00.jpg');
-compositeImages{2} = imread('SURF composite images/domino_01.jpg');
-compositeImages{3} = imread('SURF composite images/domino_03.jpg');
-compositeImages{4} = imread('SURF composite images/domino_05.jpg');
-compositeImages{5} = imread('SURF composite images/domino_06.jpg');
-compositeImages{6} = imread('SURF composite images/domino_11.jpg');
-compositeImages{7} = imread('SURF composite images/domino_12.jpg');
-compositeImages{8} = imread('SURF composite images/domino_13.jpg');
-compositeImages{9} = imread('SURF composite images/domino_14.jpg');
-compositeImages{10} = imread('SURF composite images/domino_15.jpg');
-compositeImages{11} = imread('SURF composite images/domino_16.jpg');
-compositeImages{12} = imread('SURF composite images/domino_22.jpg');
-compositeImages{13} = imread('SURF composite images/domino_23.jpg');
-compositeImages{14} = imread('SURF composite images/domino_24.jpg');
-compositeImages{15} = imread('SURF composite images/domino_25.jpg');
-compositeImages{16} = imread('SURF composite images/domino_26.jpg');
-compositeImages{17} = imread('SURF composite images/domino_33.jpg');
-compositeImages{18} = imread('SURF composite images/domino_34.jpg');
-compositeImages{19} = imread('SURF composite images/domino_35.jpg');
-compositeImages{20} = imread('SURF composite images/domino_36.jpg');
-compositeImages{21} = imread('SURF composite images/domino_44.jpg');
-compositeImages{22} = imread('SURF composite images/domino_45.jpg');
-compositeImages{23} = imread('SURF composite images/domino_46.jpg');
-compositeImages{24} = imread('SURF composite images/domino_55.jpg');
-compositeImages{25} = imread('SURF composite images/domino_56.jpg');
-compositeImages{26} = imread('SURF composite images/domino_66.jpg');
+compositelibrary{1} = imread('SURF composite library/domino_00.jpg');
+compositelibrary{2} = imread('SURF composite library/domino_01.jpg');
+compositelibrary{3} = imread('SURF composite library/domino_03.jpg');
+compositelibrary{4} = imread('SURF composite library/domino_04.jpg');
+compositelibrary{5} = imread('SURF composite library/domino_05.jpg');
+compositelibrary{6} = imread('SURF composite library/domino_06.jpg');
+compositelibrary{7} = imread('SURF composite library/domino_11.jpg');
+compositelibrary{8} = imread('SURF composite library/domino_12.jpg');
+compositelibrary{9} = imread('SURF composite library/domino_13.jpg');
+compositelibrary{10} = imread('SURF composite library/domino_14.jpg');
+compositelibrary{11} = imread('SURF composite library/domino_15.jpg');
+compositelibrary{12} = imread('SURF composite library/domino_16.jpg');
+compositelibrary{13} = imread('SURF composite library/domino_22.jpg');
+compositelibrary{14} = imread('SURF composite library/domino_23.jpg');
+compositelibrary{15} = imread('SURF composite library/domino_24.jpg');
+compositelibrary{16} = imread('SURF composite library/domino_25.jpg');
+compositelibrary{17} = imread('SURF composite library/domino_26.jpg');
+compositelibrary{18} = imread('SURF composite library/domino_33.jpg');
+compositelibrary{19} = imread('SURF composite library/domino_34.jpg');
+compositelibrary{20} = imread('SURF composite library/domino_35.jpg');
+compositelibrary{21} = imread('SURF composite library/domino_36.jpg');
+compositelibrary{22} = imread('SURF composite library/domino_44.jpg');
+compositelibrary{23} = imread('SURF composite library/domino_45.jpg');
+compositelibrary{24} = imread('SURF composite library/domino_46.jpg');
+compositelibrary{25} = imread('SURF composite library/domino_55.jpg');
+compositelibrary{26} = imread('SURF composite library/domino_56.jpg');
+compositelibrary{27} = imread('SURF composite library/domino_66.jpg');
 
-
-for i = 1 : size(compositeImages, 2);
-    compositeImages{i} = rgb2gray(compositeImages{i});
-    dominoPoints = detectMSERFeatures(compositeImages{i});
+for i = 1 : size(compositelibrary, 2);
+    compositelibrary{i} = rgb2gray(compositelibrary{i});
+    dominoPoints = detectSURFFeatures(compositelibrary{i});
     [dominoFeatures, dominoPoints] = extractFeatures(...
-            compositeImages{i}, dominoPoints);
-    compositeMSERFeatures{i} = dominoFeatures;
-    compositeMSERPoints{i} = dominoPoints;
-end
-
-for i = 1 : size(compositeImages, 2);
-    dominoPoints = detectSURFFeatures(compositeImages{i});
-    [dominoFeatures, dominoPoints] = extractFeatures(...
-            compositeImages{i}, dominoPoints);
+            compositelibrary{i}, dominoPoints);
     compositeSURFFeatures{i} = dominoFeatures;
     compositeSURFPoints{i} = dominoPoints;
 end
 
-compositeLibrarySURF = {compositeImages, compositeSURFPoints, compositeSURFFeatures};
+compositeLibrarySURF = {compositelibrary, compositeSURFPoints, compositeSURFFeatures};
 
-compositeLibraryMSER = {compositeImages, compositeMSERPoints, compositeMSERFeatures};
