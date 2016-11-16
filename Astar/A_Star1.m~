@@ -88,13 +88,13 @@ MAP(yTarget,xTarget)=0;%Initialize MAP with location of the target
 %  end%End of While loop
 %  
 
-% h=msgbox('Please Select the Vehicle initial position using the Left Mouse button');
-% uiwait(h,5);
-% if ishandle(h) == 1
-%     delete(h);
-% end
-% xlabel('Please Select the Vehicle initial position ','Color','black');
-% but=0;
+h=msgbox('Please Select the Vehicle initial position using the Left Mouse button');
+uiwait(h,5);
+if ishandle(h) == 1
+    delete(h);
+end
+xlabel('Please Select the Vehicle initial position ','Color','black');
+but=0;
 % while (but ~= 1) %Repeat until the Left button is not clicked
 %     [xval,yval,but]=ginput(1);
 %     xval=floor(xval);
@@ -160,8 +160,7 @@ end
     
 if exist('Optimal_path', 'var')
     Optimal_path = Optimal_path .* 40;
-    Optimal_path = [[start(1) start(2)]; Optimal_path];
-    Optimal_path = [Optimal_path; [target(1) target(2)]];
+    Optimal_path = flipud(Optimal_path);
 %     plot(Optimal_path(:,1), Optimal_path(:,2));
     
     disp('Straight line taken')
@@ -320,8 +319,6 @@ end
 disp('getting here')
 Optimal_path = Optimal_path .* 40;
 Optimal_path = flipud(Optimal_path);
-Optimal_path = [[start(1) start(2)]; Optimal_path];
-Optimal_path = [Optimal_path; [target(1) target(2)]];
 
 end
 
