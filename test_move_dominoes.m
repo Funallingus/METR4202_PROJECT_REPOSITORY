@@ -16,6 +16,9 @@ cent = [];
 for i = 1 : size(centroid, 2)
     centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv);
     centY = round((size(frame, 1) - centroid{i}(2))/yConv) + yOffset;
+    if(centY < 150 && abs(centX) < 150)
+        continue;
+    end
     LAB3(3, [0, start, 0], [centX, centY, 0]);
     abort(3);
     cent = [cent; centX, centY];

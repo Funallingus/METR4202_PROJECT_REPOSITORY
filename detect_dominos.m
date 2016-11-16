@@ -1,6 +1,6 @@
 %LAB2init;
 close all
-
+abort(3);
 moveArm(1, 110, 100, 500, 3);
 moveArm(2, 110, 100, 500, 3);
 
