@@ -75,7 +75,7 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     height = rects(4)/resize;
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
-       (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1);
+       (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.025);
         angle = 90 - blobMeasurements(k).Orientation;
         dominoCentroid{index} = [(x1 + x2)/2, (y1 + y2)/2];
         x = [x1, x2, x2, x1, x1];
@@ -87,8 +87,8 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
         dominoCandidateBox_x{index} = x;
         dominoCandidateBox_y{index} = y;
         index = index + 1;
-    end
-    if (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1)
+    else (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.1) && ...
+            width * height > (size(currentImage, 1) * size(currentImage, 2) * 0.005);
         for a = x1 : x2
             for b = y1: y2
                 obstructionMap(round(a), round(b)) = 0;

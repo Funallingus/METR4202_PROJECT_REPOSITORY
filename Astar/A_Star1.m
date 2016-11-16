@@ -1,7 +1,21 @@
+function Optimal_path = A_Star1(start, target, obstructionMap)
 % get required image
+resize = 0.25;
+
+xStart = (size(obstructionMap, 2) - start(1))/resize;
+yStart = (size(obstructionMap, 1) - start(2))/resize;
+xStart=round(xStart);%Starting Position
+yStart=round(yStart);%Starting Position
+
+
+xTarget = (size(obstructionMap, 2) - target(1))/resize;
+yTarget = (size(obstructionMap, 1) - target(2))/resize;
+xTarget=round(xTarget);%X Coordinate of the Target
+yTarget=round(yTarget);%Y Coordinate of the Target
+
 clear Optimal_path
 mapskies = flipud(obstructionMap);
-mapskies = imresize(mapskies, 0.025);
+mapskies = imresize(mapskies, resize);
 obstructionSize = size(mapskies);
 %DEFINE THE 2-D MAP ARRAY
 MAX_X = obstructionSize(2);
@@ -39,7 +53,7 @@ n=0;%Number of Obstacles
 
 
 % BEGIN Interactive Obstacle, Target, Start Location selection
-pause(1);
+
 h=msgbox('Please Select the Target using the Left Mouse button');
 uiwait(h,5);
 if ishandle(h) == 1
@@ -47,13 +61,12 @@ if ishandle(h) == 1
 end
 xlabel('Please Select the Target using the Left Mouse button','Color','black');
 but=0;
-while (but ~= 1) %Repeat until the Left button is not clicked
-    [xval,yval,but]=ginput(1);
-end
-xval=floor(xval);
-yval=floor(yval);
-xTarget=xval;%X Coordinate of the Target
-yTarget=yval;%Y Coordinate of the Target
+% % while (but ~= 1) %Repeat until the Left button is not clicked
+% %     [xval,yval,but]=ginput(1);
+% % end
+% xval=floor(xval);
+% yval=floor(yval);
+
 
 MAP(yval,xval)=0;%Initialize MAP with location of the target
 plot(xval+.5,yval+.5,'gd');
@@ -81,13 +94,13 @@ if ishandle(h) == 1
 end
 xlabel('Please Select the Vehicle initial position ','Color','black');
 but=0;
-while (but ~= 1) %Repeat until the Left button is not clicked
-    [xval,yval,but]=ginput(1);
-    xval=floor(xval);
-    yval=floor(yval);
-end
-xStart=xval;%Starting Position
-yStart=yval;%Starting Position
+% while (but ~= 1) %Repeat until the Left button is not clicked
+%     [xval,yval,but]=ginput(1);
+%     xval=floor(xval);
+%     yval=floor(yval);
+% end
+% xStart=xval;%Starting Position
+% yStart=yval;%Starting Position
 MAP(yval,xval)=1;
  plot(xval+.5,yval+.5,'bo');
 %End of obstacle-Target pickup
@@ -281,17 +294,17 @@ if ( (xval == xTarget) && (yval == yTarget))
  p=plot(Optimal_path(j,1)+.5,Optimal_path(j,2)+.5,'bo');
  j=j-1;
  for i=j:-1:1
-% pause(.25);
+
  plot(Optimal_path(i,1)+.5,Optimal_path(i,2)+.5);
  end;
  plot(Optimal_path(:,1)+.5,Optimal_path(:,2)+.5);
 else
- pause(1);
+
  h=msgbox('Sorry, No path exists to the Target!','warn');
  uiwait(h,5);
 end
 
-    
+end
 
 
 

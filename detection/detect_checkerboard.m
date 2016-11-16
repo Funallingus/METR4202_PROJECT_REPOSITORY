@@ -18,7 +18,7 @@ images = {sceneTopLeft, sceneTopRight, sceneBottomLeft, sceneBottomRight};
 % images = images(imagesUsed);
 cnrPoints = [];
 allPoints = {};
-% figure(1);
+figure(1);
 for i = 1:numel(images)
     image = images{i};
     [imagePoints, boardSize, imagesUsed] = ...
@@ -28,10 +28,10 @@ for i = 1:numel(images)
     Avg = sum(imagePoints, 1)/size(imagePoints, 1);
     allPoints{i} = imagePoints;
     
-%     subplot(2, 2, i);
-%     imshow(images{i}); hold on; plot(imagePoints(:,1), imagePoints(:,2), 'ro');
-%     plot(Avg(1), Avg(2), 'rx', 'MarkerSize', 30);
-%     hold off
+    subplot(2, 2, i);
+    imshow(images{i}); hold on; plot(imagePoints(:,1), imagePoints(:,2), 'ro');
+    plot(Avg(1), Avg(2), 'rx', 'MarkerSize', 30);
+    hold off
     cnrPoints = [cnrPoints; Avg(1), Avg(2)];
 
 end

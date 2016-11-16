@@ -9,12 +9,12 @@ function moveArm(motorPort, angle, speed, torque, port)
 % else 
 %     steps = round(angle*1024/300);
 % end
-angle
-steps = round(angle*1024/300)
-loadlibrary('dynamixel', 'dynamixel.h');
+angle;
+steps = round(angle*1024/300);
+% loadlibrary('dynamixel', 'dynamixel.h');
 
 %% Declarations
-libfunctions('dynamixel');
+% libfunctions('dynamixel');
 DEFAULT_BAUDNUM = 1;        % Baud rate
 DEFAULT_PORTNUM = port;     % Port on computer
 P_PRESENT_POSITION = 36;    % Dynamixal port for present pos
@@ -27,7 +27,7 @@ calllib('dynamixel', 'dxl_initialize', DEFAULT_PORTNUM, DEFAULT_BAUDNUM);
 
 calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, torque); %USUALLY 500
 calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, speed); %USUALLY max 1023
-incr = 4;
+incr = 5;
 %% Movement
 if angle > 9000
 %     if motorPort == 1
@@ -88,7 +88,7 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
             end
         end
     end
-    presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION));
+    presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION))
 end
 
 

@@ -22,7 +22,7 @@ torque = 800;
 
 %moveArm(2, jointAngle1, speed, torque, DEFAULT_PORT);
 moveArm(1, pivotAngle, speed, 1020, DEFAULT_PORT);
-moveArm(2, jointAngle1, speed, torque, DEFAULT_PORT);
+moveArm(2, jointAngle1, speed, 1000, DEFAULT_PORT);
 moveArm(3, jointAngle2, speed, torque, DEFAULT_PORT);
 
 %% old code
