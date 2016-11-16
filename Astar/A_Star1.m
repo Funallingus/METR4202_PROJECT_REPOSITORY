@@ -14,7 +14,8 @@ xTarget=round(xTarget);%X Coordinate of the Target
 yTarget=round(yTarget);%Y Coordinate of the Target
 
 clear Optimal_path
-mapskies = flipud(obstructionMap);
+% mapskies = flipud(obstructionMap);
+mapskies = obstructionMap;
 mapskies = imresize(mapskies, resize);
 obstructionSize = size(mapskies);
 %DEFINE THE 2-D MAP ARRAY
