@@ -1,13 +1,26 @@
 %LAB2init;
 close all
+
+moveArm(1, 110, 100, 500, 3);
+moveArm(2, 110, 100, 500, 3);
+
+clear cam;
+
+init_webcam
+
+
 %initalize_system;
-%captureJpeg('workspace.jpg', colorVid, depthVid);
+%captureJpeg('MSER_image_library/domino_66a.jpg', colorVid, depthVid);
 %stop([colorVid depthVid]);
 
 %image = imread('SIFT_TEST/cluttered.jpeg');
-[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
+%[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 %imwrite(frame, 'workspace.jpg');
-
+snapshot(cam);
+frame = snapshot(cam);
+[frame, cnrPoints] = detect_checkerboard(frame);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);
-%[domino, dominoBoxDimensions, dominoMatch, dominoPose] = edge_detection(frame, depthIm,...
-%            model, referenceLibrary, compositeLibrary, dice, centroid);
+[domino, dominoBoxDimensions, obstructionMap, centroid] = edge_detection(frame, ...
+            model, compositeLibrarySURF, dice);
+
+test_move_dominoes;
