@@ -23,4 +23,4 @@ frame = snapshot(cam);
 [domino, dominoBoxDimensions, obstructionMap, centroid] = edge_detection(frame, ...
             model, compositeLibrarySURF, dice);
 
-test_move_dominoes;
+%test_move_dominoes;
