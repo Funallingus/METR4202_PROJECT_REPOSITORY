@@ -10,7 +10,7 @@ function moveArm(motorPort, angle, speed, torque, port)
 %     steps = round(angle*1024/300);
 % end
 steps = round(angle*1024/300);
-loadlibrary('dynamixel', 'dynamixel.h');
+% loadlibrary('dynamixel', 'dynamixel.h');
 
 %% Declarations
 libfunctions('dynamixel');

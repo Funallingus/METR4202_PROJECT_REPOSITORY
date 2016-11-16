@@ -181,6 +181,6 @@ delta2
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
 
 moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
-
+moveArm(3, 53, 60, 512, DEFAULT_PORTNUM);
 
 end
