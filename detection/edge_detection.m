@@ -76,7 +76,7 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.025) &&...
-       (width * height) > (size(currentImage, 1) * size(currentImage, 2) * 0.001);
+       (width * height) > (size(currentImage, 1) * size(currentImage, 2) * 0.005);
         angle = 90 - blobMeasurements(k).Orientation;
         dominoCentroid{index} = [(x1 + x2)/2, (y1 + y2)/2];
         x = [x1, x2, x2, x1, x1];
