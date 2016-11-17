@@ -6,12 +6,23 @@ xStart = start(1) * resize;
 yStart = start(2) * resize;
 xStart=round(xStart);%Starting Position
 yStart=round(yStart);%Starting Position
-
+if xStart == 0
+    xStart = 1;
+end
+if yStart == 0
+    yStart = 1;
+end
 
 xTarget = target(1) * resize;
 yTarget = target(2) * resize;
-xTarget=round(xTarget);%X Coordinate of the Target
-yTarget=round(yTarget);%Y Coordinate of the Target
+xTarget=round(xTarget)%X Coordinate of the Target
+yTarget=round(yTarget)%Y Coordinate of the Target
+if xTarget == 0
+    xTarget = 1;
+end
+if yTarget == 0
+    yTarget = 1;
+end
 
 clear Optimal_path
 % mapskies = flipud(obstructionMap);
@@ -68,7 +79,6 @@ n=0;%Number of Obstacles
 % % end
 % xval=floor(xval);
 % yval=floor(yval);
-
 
 MAP(yTarget,xTarget)=0;%Initialize MAP with location of the target
 % plot(xTarget+.5,yTarget+.5,'gd');

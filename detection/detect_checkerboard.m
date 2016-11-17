@@ -1,4 +1,4 @@
-function [J2, cnrPoints] = detect_checkerboard(frame)
+function [J2, cnrPoints, allPoints, T] = detect_checkerboard(frame)
 % frame = imread('workspace_2.jpg');
 
 close all;

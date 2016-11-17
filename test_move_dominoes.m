@@ -13,8 +13,9 @@ yConv = (size(frame, 1))/350;
 start = 194+257;
 
 cent = [];
+final_coords = [size(frame, 2) - 350, 10; size(frame, 2) - 350, 200; size(frame, 2) - 350, 300];
 
-for i = 1 %size(centroid, 2)
+for i = 1 : 3
     workspace = obstructionMap';
     centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv);
     centY = round((size(frame, 1) - centroid{i}(2))/yConv) + yOffset;
@@ -37,8 +38,8 @@ for i = 1 %size(centroid, 2)
     
 %     LAB3(3, [0, start, 0], [centX, centY, 0]);
     abort(3);
-    sequence = A_Star1([centroid{i}(1) , centroid{i}(2)],...
-            [1465, 345], workspace);
+    sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
+            final_coords(i,:), workspace);
     array = [];
     for m = 1 : 1: size(sequence, 1)
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]

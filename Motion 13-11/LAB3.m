@@ -167,9 +167,9 @@ else
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);
 %     end
     %lineIkine(a1, a2, 250, DEFAULT_PORTNUM);
-    moveArm(1, sign*5, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, sign*6, 200, 1000, DEFAULT_PORTNUM);
     moveArm(3, 30, 100, 200, DEFAULT_PORTNUM);
-    moveArm(1, (-1)*sign*5, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, (-1)*sign*6, 200, 1000, DEFAULT_PORTNUM);
 %     if sign > 0
 %         moveArm(1, -8, 100, 1000, Port);
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);

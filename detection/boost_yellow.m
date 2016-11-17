@@ -8,7 +8,7 @@ imghsv=rgb2hsv(image);
 yellowIndex=repmat((imghsv(:,:,1)>45/360)&(imghsv(:,:,1)<65/360),[1 1 3]);   
 yellow=imghsv.*yellowIndex;
 %Saturate it
-moreSaturation=2;
+moreSaturation=3;
 yellowsaturated=nthroot(yellow(:,:,1), 2);
 yellow(:,:,1)=yellowsaturated;
 yellowsaturated=yellow(:,:,2)*moreSaturation;

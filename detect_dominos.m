@@ -18,7 +18,8 @@ init_webcam
 %imwrite(frame, 'workspace.jpg');
 snapshot(cam);
 frame = snapshot(cam);
-[frame, cnrPoints] = detect_checkerboard(frame);
+% [frame, cnrPoints, allPoints, tform] = detect_checkerboard(frame);
+frame = crop_frame(frame, cnrPoints, allPoints, tform);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);
 [domino, dominoBoxDimensions, obstructionMap, centroid] = edge_detection(frame, ...
             model, compositeLibrarySURF, dice);

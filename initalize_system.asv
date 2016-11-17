@@ -1,0 +1,12 @@
+clear all;
+sift_composite_images;
+dice_features;
+train_edge_detection;
+init_webcam;
+loadlibrary('dynamixel', 'dynamixel.h');
+abort(3);
+moveArm(1, 110, 100, 500, 3);
+moveArm(2, 100, 100, 500, 3);
+frame = snapshot(cam);
+[frame, cnrPoints, allPoints, tform] = detect_checkerboard(frame);
+abort(3);
