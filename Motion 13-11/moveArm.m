@@ -80,7 +80,7 @@ loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
-    loopVal = presentPos;
+    loopVal == presentPos;
     calllib('dynamixel', 'dxl_write_word', motorPort, P_GOAL_POSITION, GOAL);
     if motorPort == 3 && angle > 29 && angle < 90 && presentPos > 650
         presentVel = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_VEL));
@@ -96,7 +96,7 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
         loopCount = loopCount + 1;
     end
     if loopVal > 10
-        printf('breaking');
+        fprintf('breaking');
         break;
     end
 end

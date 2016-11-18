@@ -1,6 +1,6 @@
 xDistance = 550;
 yDistance = 350;
-yOffset = 25;
+yOffset = 20;
 xOffset = 5;
 Port = 3;
 abort(Port);
@@ -34,10 +34,21 @@ for i = 1 : size(domino, 2)
        if i == k
            continue;
        end
-       bottomX = dominoBoxDimensions{k}(1)* 0.8;
-       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
-       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.2;
-       topY = dominoBoxDimensions{k}(2) * 1.1;
+%        if k < i
+%            bottomX = dominoBoxDimensions{k}(1);
+%            bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4));
+%            topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3));
+%            topY = dominoBoxDimensions{k}(2);
+%        else
+%             bottomX = dominoBoxDimensions{k}(1)* 0.7;
+%             bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
+%             topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.3;
+%             topY = dominoBoxDimensions{k}(2) * 1.1;
+%        end   
+       bottomX = dominoBoxDimensions{k}(1);
+       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4));
+       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3));
+       topY = dominoBoxDimensions{k}(2);
        if bottomX < 1
            bottomX = 1;
        end
@@ -65,9 +76,13 @@ for i = 1 : size(domino, 2)
     abort(Port);
     sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
             Positions(i,:), workspace);
+    figure; imshow(workspace); hold on;
+    plot(sequence(:, 1), sequence(:, 2), 'LineWidth', 3);
+    hold off;
+    
     array = [];
     for m = 1 : 1: size(sequence, 1)
-        array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]
+        array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]];
     end
     DragDomino(Port, [0, start, 0], array);
     dominoBoxDimensions{i}(1) = sequence(end, 1) - dominoBoxDimensions{i}(3)/2;
