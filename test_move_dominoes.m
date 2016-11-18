@@ -1,6 +1,7 @@
 xDistance = 550;
 yDistance = 350;
-yOffset = 35;
+yOffset = 20;
+xOffset = 5;
 Port = 3;
 abort(Port);
 Positions_generator;
@@ -22,9 +23,9 @@ end
 cent = [];
 final_coords = [size(frame, 2) - 350, 10; size(frame, 2) - 350, 200; size(frame, 2) - 350, 300];
 
-for i = 1 : 3
+for i = 1 : size(domino, 2)
     workspace = obstructionMap';
-    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv);
+    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv - xOffset);
     centY = round((size(frame, 1) - centroid{i}(2))/yConv) + yOffset;
     if(centY < 150 && abs(centX) < 150)
         continue;
@@ -33,10 +34,33 @@ for i = 1 : 3
        if i == k
            continue;
        end
-       bottomX = dominoBoxDimensions{k}(1)* 0.9;
-       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
-       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.1;
-       topY = dominoBoxDimensions{k}(2) * 1.1;
+%        if k < i
+%            bottomX = dominoBoxDimensions{k}(1);
+%            bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4));
+%            topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3));
+%            topY = dominoBoxDimensions{k}(2);
+%        else
+%             bottomX = dominoBoxDimensions{k}(1)* 0.7;
+%             bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
+%             topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.3;
+%             topY = dominoBoxDimensions{k}(2) * 1.1;
+%        end   
+       bottomX = dominoBoxDimensions{k}(1);
+       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4));
+       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3));
+       topY = dominoBoxDimensions{k}(2);
+       if bottomX < 1
+           bottomX = 1;
+       end
+       if bottomY < 1
+           bottomY = 1;
+       end
+       if topX > size(obstructionMap, 2)
+           topX = size(obstructionMap, 2);
+       end
+       if topY > size(obstructionMap, 1)
+           topY = size(obstructionMap, 1);
+       end
        
        for a = bottomX : topX
             for b = bottomY : topY
@@ -52,9 +76,13 @@ for i = 1 : 3
     abort(Port);
     sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
             Positions(i,:), workspace);
+    figure; imshow(workspace); hold on;
+    plot(sequence(:, 1), sequence(:, 2), 'LineWidth', 3);
+    hold off;
+    
     array = [];
     for m = 1 : 1: size(sequence, 1)
-        array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]
+        array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]];
     end
     DragDomino(Port, [0, start, 0], array);
     dominoBoxDimensions{i}(1) = sequence(end, 1) - dominoBoxDimensions{i}(3)/2;

@@ -49,7 +49,7 @@ for k=1:length(B),
 end
 hold off;
 %}
-obstructionMap = ones(size(BW, 2), size(BW, 1));
+obstructionMap = ones(size(BW, 2) - 1, size(BW, 1) - 1);
 size(BW)
 size(obstructionMap);
 
@@ -169,7 +169,7 @@ for i = 1 : size(dominoCandidate, 2)
         
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
         dotCount = [dotCount; find_circles(domino{count})];
-        strmax = sprintf('Domino= %g:%g', dotCount(1), dotCount(2));
+        strmax = sprintf('Domino= %g:%g', dotCount(i, 1), dotCount(i, 2));
         text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
             'FontSize', 8);
         drawnow; 
