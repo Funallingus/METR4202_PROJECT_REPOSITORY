@@ -6,7 +6,7 @@ function A = getCoords(port)
 a1=194;
 a2=194;
 a3=125;
-port=18;
+
 
 
 %loadlibrary('dynamixel', 'dynamixel.h');
@@ -57,10 +57,10 @@ A2 = [cos(theta2), -sin(theta2), 0, a2*cos(theta2); ...
     0, 0, 0, 1 ];
 
 
-A3 = [ cos(theta3), 0, -sin(theta3), a3*cos(theta3); ...
-    sin(theta3), 0, cos(theta3), a3*sin(theta3);...%a1*sin(theta1)+a2*sin(theta1+theta2);...%+a3*cos(theta3))*sin(theta1+theta2); ...
-    0, -1, 0, 0; ...
-    0, 0, 0, 1 ];
+% A3 = [ cos(theta3), 0, -sin(theta3), a3*cos(theta3); ...
+%     sin(theta3), 0, cos(theta3), a3*sin(theta3);...%a1*sin(theta1)+a2*sin(theta1+theta2);...%+a3*cos(theta3))*sin(theta1+theta2); ...
+%     0, -1, 0, 0; ...
+%     0, 0, 0, 1 ];
 
 A3 = [ cos(theta3), 0, sin(theta3), a3*cos(theta3); ...
     0, 1, 0, 0; ...
@@ -83,7 +83,7 @@ T123=A1*A2*A3;%, 'Steps', 100)
 %B = [a3*sin(theta3); a3*cos(theta3); 0; 1];
 %B = [a3*cos(theta3); a3*sin(theta3); 0; 1];
 % 
-A = [T123(1,4), T123(2,4), T123(3,4)];
+A = [T123(2,4), T123(1,4), T123(3,4)];
 %A = [x, y, z];
 end
 

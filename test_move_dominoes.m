@@ -1,7 +1,7 @@
 xDistance = 550;
 yDistance = 350;
 yOffset = 35;
-Port = 18;
+Port = 19;
 abort(Port);
 yConv = (cnrPoints(2) + cnrPoints(4)...
     - cnrPoints(6) - cnrPoints(8))/yDistance;

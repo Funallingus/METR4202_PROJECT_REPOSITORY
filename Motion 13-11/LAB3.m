@@ -42,9 +42,23 @@ if x2 == 0
     quad2 = quad1;
 end
 
-quad1;
-quad2;
+quad1
+quad2
 
+
+current = getCoords(Port)
+if (quad1 < 0 && quad2 < 0)
+    if startPos(1) == 0
+        currentQuad = quad2;
+    elseif current(1) == 0
+        currentQuad = quad2;
+    else
+        currentQuad = current(1)/abs(current(1))
+        if currentQuad ~= quad1
+            return
+        end
+    end
+end
 %% altenative way of dealing with quadrant correction
 sign = 1;
 % loadlibrary('dynamixel', 'dynamixel.h');
@@ -83,10 +97,10 @@ else
     end
     
     if sign < 0
-        midPos = [-5, c, 0];   % defined mid position
+        midPos = [-15, c, 0];   % defined mid position
         quad = -1;
     else
-        midPos = [5, c, 0];
+        midPos = [15, c, 0];
         quad = 1;
     end
     %quad = quad1;           % use ikineChur solution determined by the quadrant of the starting position
@@ -127,7 +141,7 @@ else
 %         moveArm(2, -5, 100, 1000, Port);
 %         moveArm(1, -5, 100, 1000, Port);
 %     end
-    lineIkine(a1, a2, c, DEFAULT_PORTNUM);
+    lineIkine(a1, 285, c, DEFAULT_PORTNUM);
     %moveArm(2, sign*8, 50, 200, DEFAULT_PORTNUM);
 %     moveArm(2, 8, 50, 200, DEFAULT_PORTNUM);
     moveArm(3, -30, 100, 200, DEFAULT_PORTNUM);
@@ -170,9 +184,9 @@ else
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);
 %     end
     %lineIkine(a1, a2, 250, DEFAULT_PORTNUM);
-    moveArm(1, sign*6, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, -sign*3, 200, 1000, DEFAULT_PORTNUM);
     moveArm(3, 30, 100, 200, DEFAULT_PORTNUM);
-    moveArm(1, (-1)*sign*6, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, (1)*sign*3, 200, 1000, DEFAULT_PORTNUM);
 %     if sign > 0
 %         moveArm(1, -8, 100, 1000, Port);
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);
