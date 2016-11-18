@@ -95,7 +95,7 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
     if presentPos == loopVal;
         loopCount = loopCount + 1;
     end
-    if loopVal > 30
+    if loopVal > 10
         printf('breaking');
         break;
     end

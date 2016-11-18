@@ -1,6 +1,7 @@
 xDistance = 550;
 yDistance = 350;
-yOffset = 35;
+yOffset = 25;
+xOffset = 5;
 Port = 3;
 abort(Port);
 Positions_generator;
@@ -22,9 +23,9 @@ end
 cent = [];
 final_coords = [size(frame, 2) - 350, 10; size(frame, 2) - 350, 200; size(frame, 2) - 350, 300];
 
-for i = 1 : 3
+for i = 1 : size(domino, 2)
     workspace = obstructionMap';
-    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv);
+    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv + xOffset);
     centY = round((size(frame, 1) - centroid{i}(2))/yConv) + yOffset;
     if(centY < 150 && abs(centX) < 150)
         continue;
