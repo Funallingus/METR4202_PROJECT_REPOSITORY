@@ -49,7 +49,7 @@ for k=1:length(B),
 end
 hold off;
 %}
-obstructionMap = ones(size(BW, 2), size(BW, 1));
+obstructionMap = ones(size(BW, 2) - 1, size(BW, 1) - 1);
 size(BW)
 size(obstructionMap);
 

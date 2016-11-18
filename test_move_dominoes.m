@@ -34,10 +34,22 @@ for i = 1 : size(domino, 2)
        if i == k
            continue;
        end
-       bottomX = dominoBoxDimensions{k}(1)* 0.9;
+       bottomX = dominoBoxDimensions{k}(1)* 0.8;
        bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
-       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.1;
+       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.2;
        topY = dominoBoxDimensions{k}(2) * 1.1;
+       if bottomX < 1
+           bottomX = 1;
+       end
+       if bottomY < 1
+           bottomY = 1;
+       end
+       if topX > size(obstructionMap, 2)
+           topX = size(obstructionMap, 2);
+       end
+       if topY > size(obstructionMap, 1)
+           topY = size(obstructionMap, 1);
+       end
        
        for a = bottomX : topX
             for b = bottomY : topY
