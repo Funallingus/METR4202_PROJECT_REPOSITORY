@@ -4,7 +4,7 @@ function count = find_circles(domino)
     image = imcrop(domino, [0, 0, size(domino,2), size(domino, 1)/2]);
     image = boost_yellow(image);    
 %     figure(); imshow(image); hold on;
-    image = im2bw(image, sqrt(graythresh(image)));
+    image = im2bw(image, graythresh(image));
     image = bwmorph(image, 'majority');
     image = 1 - image;
     blobMeasurements = regionprops(logical(image), 'BoundingBox', 'Area', 'MajorAxisLength', 'MinorAxisLength');
@@ -21,7 +21,7 @@ function count = find_circles(domino)
 %         plot(x, y, 'LineWidth', 2);
         axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
         if blobMeasurements(k).Area < 0.03 * size(image, 1) * size(image, 2) && ...
-                blobMeasurements(k).Area > 0.001 * size(image, 1) * size(image, 2) &&...
+                blobMeasurements(k).Area > 0.0011 * size(image, 1) * size(image, 2) &&...
                 axis_aspect_ratio > 0.45
 
             topCount = topCount + 1;
@@ -34,7 +34,7 @@ function count = find_circles(domino)
     image = imcrop(domino, [0, size(domino, 1)/2, size(domino,2), size(domino, 1)/2]);
     image = boost_yellow(image);
 %     figure(); imshow(image); hold on;
-    image = im2bw(image, sqrt(graythresh(image)));
+    image = im2bw(image, graythresh(image));
     %result = bwmorph(result, 'clean');
     image = bwmorph(image, 'majority');
     image = 1 - image;
@@ -51,7 +51,7 @@ function count = find_circles(domino)
 %         plot(x, y, 'LineWidth', 2);   
         axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
         if blobMeasurements(k).Area < 0.03 * size(image, 1) * size(image, 2) && ...
-                blobMeasurements(k).Area > 0.001 * size(image, 1) * size(image, 2) &&...
+                blobMeasurements(k).Area > 0.0011 * size(image, 1) * size(image, 2) &&...
                 axis_aspect_ratio > 0.45
                 
 

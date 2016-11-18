@@ -5,10 +5,10 @@ imghsv=rgb2hsv(image);
 
 
 %pick yellow
-yellowIndex=repmat((imghsv(:,:,1)>45/360)&(imghsv(:,:,1)<65/360),[1 1 3]);   
+yellowIndex=repmat((imghsv(:,:,1)>15/360)&(imghsv(:,:,1)<90/360),[1 1 3]);   
 yellow=imghsv.*yellowIndex;
 %Saturate it
-moreSaturation=3;
+moreSaturation=2.65;
 yellowsaturated=nthroot(yellow(:,:,1), 2);
 yellow(:,:,1)=yellowsaturated;
 yellowsaturated=yellow(:,:,2)*moreSaturation;

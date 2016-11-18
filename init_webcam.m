@@ -1,7 +1,7 @@
-cam = webcam('Microsoft LifeCam Studio');
+cam = webcam('Microsoft® LifeCam Studio(TM)');
 cam.Resolution = '1920x1080';
-cam.Saturation = 180;
-cam.Brightness = 100;
-cam.Sharpness = 50;
+cam.Saturation = 170;
+cam.Brightness = 60;
+cam.Sharpness = 30;
 
 %cam.WhiteBalance = 6000;
