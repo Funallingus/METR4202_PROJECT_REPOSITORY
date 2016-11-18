@@ -1,4 +1,4 @@
-function [domino, dominoBoxDimensions, obstructionMap, centroid, dotCount] = ...
+function [domino, dominoBoxDimensions, obstructionMap, centroid, turnTableCentroid, dotCount] = ...
                 edge_detection(currentImage, model, referenceLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
@@ -37,8 +37,7 @@ BW = im2bw(F, graythresh(F));
 
 %% Adds bounding box to all of the objects (rectangles) found
 %%by the edge detection toolbox
-%%
-%{
+
 [B,L,N,A] = bwboundaries(BW);
 figure; imshow(currentImage); hold on;
 for k=1:length(B),
@@ -48,7 +47,7 @@ for k=1:length(B),
     end
 end
 hold off;
-%}
+
 obstructionMap = ones(size(BW, 2) - 1, size(BW, 1) - 1);
 size(BW)
 size(obstructionMap);
@@ -96,6 +95,9 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
             end
         end        
     end
+    if blobMeasurements(k).Area > 0.17 && blobMeasurements(k).Area < 0.23
+        Turntable = [x1, y1, x2, y2];
+    end
 end
 obstructionMap = obstructionMap';
 %figure; imshow(obstructionMap);
@@ -105,6 +107,7 @@ obstructionMap = obstructionMap';
 figure(20); imshow(currentImage);
 hold on;
 count = 1;
+turnTableCount = 1;
 dotCount = [];
 for i = 1 : size(dominoCandidate, 2)
     isDomino = 0;
@@ -162,7 +165,11 @@ for i = 1 : size(dominoCandidate, 2)
 %}
     
     if size(dominoCandidatePairs, 2) > 1 && isDomino
-
+        if dominoCentroid{i}(1) > Turntable(0) && dominoCentroid{i}(1) < Turntable(3) &&...
+                dominoCentroid{i}(2) > Turntable(1) && dominoCentroid{i}(2) < Turntable(4)
+            turnTableCentroid{turnTableCount} = dominoCentroid{i};
+            turnTableCount = turnTableCount + 1;
+        end
         domino{count} = dominoCandidate{i};
         dominoBoxDimensions{count} = dominoCanidate_box_dimensions{i};
         centroid{count} = dominoCentroid{i};

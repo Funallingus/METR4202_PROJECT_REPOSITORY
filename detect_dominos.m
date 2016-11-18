@@ -18,14 +18,14 @@ moveArm(2, 100, 100, 500, Port);
 %[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 %imwrite(frame, 'workspace.jpg');
 % snapshot(cam);
-for i = 1 : 5
+for i = 1 : 3
   frame = snapshot(cam);  
 end
-
+c = clock();
 % [frame, cnrPoints, allPoints, tform] = detect_checkerboard(frame);
 frame = crop_frame(frame, cnrPoints, allPoints, tform);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);
-[domino, dominoBoxDimensions, obstructionMap, centroid, dotCount] = edge_detection(frame, ...
+[domino, dominoBoxDimensions, obstructionMap, centroid, turnTableCentroid, dotCount] = edge_detection(frame, ...
             model, compositeLibrarySURF, dice);
 
 [domino, dominoBoxDimensions, centroid] = sort_dominoes(domino, ...
