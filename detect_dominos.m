@@ -1,8 +1,9 @@
 %LAB2init;
 close all
-abort(3);
-moveArm(1, 110, 100, 500, 3);
-moveArm(2, 100, 100, 500, 3);
+Port = 18;
+abort(Port);
+moveArm(1, 110, 100, 500, Port);
+moveArm(2, 100, 100, 500, Port);
 
 clear cam;
 

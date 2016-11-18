@@ -1,8 +1,8 @@
 xDistance = 550;
 yDistance = 350;
 yOffset = 35;
-
-abort(3);
+Port = 18;
+abort(Port);
 yConv = (cnrPoints(2) + cnrPoints(4)...
     - cnrPoints(6) - cnrPoints(8))/yDistance;
 
@@ -37,12 +37,12 @@ for i = 1 : 3
 %     figure(); imshow(workspace);
     
 %     LAB3(3, [0, start, 0], [centX, centY, 0]);
-    abort(3);
+    abort(Port);
     sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
             final_coords(i,:), workspace);
     array = [];
     for m = 1 : 1: size(sequence, 1)
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]
     end
-    DragDomino(3, [0, start, 0], array);
+    DragDomino(Port, [0, start, 0], array);
 end

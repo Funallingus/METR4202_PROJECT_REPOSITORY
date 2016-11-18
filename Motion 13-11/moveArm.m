@@ -74,7 +74,7 @@ elseif motorPort == 3
 %         calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 100); %USUALLY max 1023
     end
 end
-GOAL
+GOAL;
 count = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))

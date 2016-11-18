@@ -27,7 +27,7 @@ J = imresize(currentImage, resize);
 K = imsharpen(J, 'Radius',3, 'Amount', 2);
 
 F = edgesDetect(K, model); 
-BW = imbinarize(F, graythresh(F));
+BW = im2bw(F, graythresh(F));
 
 
 

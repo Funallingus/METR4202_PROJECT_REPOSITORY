@@ -60,8 +60,8 @@ else
 end
 delta2 = deltaPos*300/1024
 
-moveArm(1, delta1, 100, 1000, port);
-moveArm(2, delta2, 100, 1000, port);
+moveArm(1, delta1, 50, 1000, port);
+moveArm(2, delta2, 50, 1000, port);
 end
 %
 %
