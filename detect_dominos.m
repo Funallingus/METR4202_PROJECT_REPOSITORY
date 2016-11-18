@@ -25,7 +25,10 @@ end
 % [frame, cnrPoints, allPoints, tform] = detect_checkerboard(frame);
 frame = crop_frame(frame, cnrPoints, allPoints, tform);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);
-[domino, dominoBoxDimensions, obstructionMap, centroid] = edge_detection(frame, ...
+[domino, dominoBoxDimensions, obstructionMap, centroid, dotCount] = edge_detection(frame, ...
             model, compositeLibrarySURF, dice);
+
+[domino, dominoBoxDimensions, centroid] = sort_dominoes(domino, ...
+        dominoBoxDimensions, centroid, dotCount);
 
 %test_move_dominoes;

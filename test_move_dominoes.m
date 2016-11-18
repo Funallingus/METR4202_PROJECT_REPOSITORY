@@ -32,9 +32,14 @@ for i = 1 : 3
     for k = 1 : size(dominoBoxDimensions, 2)
        if i == k
            continue;
-       end 
-       for a = dominoBoxDimensions{k}(1) : dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)
-            for b = dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4) : dominoBoxDimensions{k}(2)
+       end
+       bottomX = dominoBoxDimensions{k}(1)* 0.9;
+       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
+       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.1;
+       topY = dominoBoxDimensions{k}(2) * 1.1;
+       
+       for a = bottomX : topX
+            for b = bottomY : topY
                 workspace(round(a), round(b)) = 0;
             end
        end    
@@ -52,4 +57,6 @@ for i = 1 : 3
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]
     end
     DragDomino(Port, [0, start, 0], array);
+    dominoBoxDimensions{i}(1) = sequence(end, 1) - dominoBoxDimensions{i}(3)/2;
+    dominoBoxDimensions{i}(2) = sequence(end, 1) - dominoBoxDimensions{i}(4)/2;
 end
