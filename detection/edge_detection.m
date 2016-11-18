@@ -37,7 +37,7 @@ BW = im2bw(F, graythresh(F));
 
 %% Adds bounding box to all of the objects (rectangles) found
 %%by the edge detection toolbox
-
+%{
 [B,L,N,A] = bwboundaries(BW);
 figure; imshow(currentImage); hold on;
 for k=1:length(B),
@@ -46,8 +46,8 @@ for k=1:length(B),
      plot(boundary(:,2)/resize,boundary(:,1)/resize,'r','LineWidth',2);hold on;
     end
 end
-hold off;
-
+% hold off;
+%}
 obstructionMap = ones(size(BW, 2) - 1, size(BW, 1) - 1);
 size(BW)
 size(obstructionMap);
@@ -64,6 +64,8 @@ numberOfBlobs = size(blobMeasurements, 1);
 %%some preprocessing by filtering boxes that are too small/large
 rects = [];
 index = 1;
+Turntable = [0, 0, 0, 0];
+frameSize = size(BW, 1) * size(BW, 2)/20;
 for k = 1 : numberOfBlobs % Loop through all blobs.
     rects = blobMeasurements(k).BoundingBox; % Get list ofpixels in current blob.
     x1 = rects(1)/resize;
@@ -95,7 +97,11 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
             end
         end        
     end
-    if blobMeasurements(k).Area > 0.17 && blobMeasurements(k).Area < 0.23
+    if blobMeasurements(k).Area > 0.175 * frameSize && blobMeasurements(k).Area < 0.21 * frameSize
+%         blobMeasurements(k).Area
+%         x = [x1, x2, x2, x1, x1];
+%         y = [y1, y1, y2, y2, y1];
+%         plot(x, y, 'LineWidth', 2);
         Turntable = [x1, y1, x2, y2];
     end
 end
@@ -165,8 +171,8 @@ for i = 1 : size(dominoCandidate, 2)
 %}
     
     if size(dominoCandidatePairs, 2) > 1 && isDomino
-        if dominoCentroid{i}(1) > Turntable(0) && dominoCentroid{i}(1) < Turntable(3) &&...
-                dominoCentroid{i}(2) > Turntable(1) && dominoCentroid{i}(2) < Turntable(4)
+        if dominoCentroid{i}(1) > Turntable(1) && dominoCentroid{i}(1) < Turntable(3) &&...
+                dominoCentroid{i}(2) > Turntable(2) && dominoCentroid{i}(2) < Turntable(4)
             turnTableCentroid{turnTableCount} = dominoCentroid{i};
             turnTableCount = turnTableCount + 1;
         end
