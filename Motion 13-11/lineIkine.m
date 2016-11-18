@@ -42,12 +42,12 @@ if c > 340
     
     
     if presentPos1 > 512
-        stepDiff = -((presentPos1-512)-(alpha1*1024/300))
+        stepDiff1 = -((presentPos1-512)-(alpha1*1024/300))
     else
-        stepDiff = (512 - presentPos1)-(alpha1*1024/300)
+        stepDiff1 = (512 - presentPos1)-(alpha1*1024/300)
     end
-    delta1 = stepDiff*300/1024
-    moveArm(1, delta1, 50, 1000, port)
+    delta1 = stepDiff1*300/1024
+    %moveArm(1, delta1, 50, 1000, port)
     
     
     if presentPos2 > 512
@@ -56,7 +56,7 @@ if c > 340
         stepDiff = (512 - presentPos2)-(alpha2*1024/300)
     end
     delta2 = stepDiff*300/1024
-    moveArm(2, delta2, 50, 1000, port)
+    %moveArm(2, delta2, 50, 1000, port)
     
     
 %     if presentPos1 > 512
@@ -107,9 +107,38 @@ else
     end
     % delta2 = 180 + deltaPos*300/1024
     delta2 = deltaPos*300/1024
-    moveArm(1, delta1, 40, 1000, port);
-    moveArm(2, delta2, 40, 1000, port);
+    
+    
+
+    
+%     if delta1 > 6
+%         moveArm(1, delta1/2, 1000, port);
+%     end    
+%         moveArm(2, detla
+%     moveArm(1, delta1, 40, 1000, port);
+%     moveArm(2, delta2, 40, 1000, port);
 end
+
+detla1 = delta1;
+detla2 = delta2;
+
+if delta1 > 5 && delta2 > 5
+    
+    moveArm(1, delta1/2, 40, 1000, port);
+    moveArm(2, detla2/2, 40, 1000, port);
+    moveArm(1, delta1/2, 40, 1000, port);
+    moveArm(2, detla2/2, 40, 1000, port);
+elseif delta1 > 5
+    moveArm(1, delta1/2, 40, 1000, port);
+    moveArm(2, detla2, 40, 1000, port);
+    moveArm(1, delta1/2, 40, 1000, port);
+elseif delta2 > 5
+    moveArm(2, delta2/2, 40, 1000, port);
+    moveArm(1, detla1, 40, 1000, port);
+    moveArm(2, delta2/2, 40, 1000, port);
+else
+    moveArm(1, detla1, 40, 1000, port);
+    moveArm(2, detla2, 40, 1000, port);
 end
 
 

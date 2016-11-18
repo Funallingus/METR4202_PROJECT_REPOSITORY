@@ -55,7 +55,7 @@ if (quad1 < 0 && quad2 < 0)
     else
         currentQuad = current(1)/abs(current(1))
         if currentQuad ~= quad1
-            return
+            startPos = [current(1), startPos(2), 0];
         end
     end
 end
@@ -154,6 +154,11 @@ else
     else
         GOAL = 522 + (512-presentPos1);
     end
+    if GOAL > 816
+        GOAL = 815;
+    elseif GOAL < 200
+        GOAL = 200;
+    end
     while ((presentPos1 < (GOAL-incr))||(presentPos1 > (GOAL+incr)))
         calllib('dynamixel', 'dxl_write_word', 1, P_GOAL_POSITION, GOAL);
         presentPos1 = int32(calllib('dynamixel', 'dxl_read_word', 1 ,P_PRESENT_POSITION));
@@ -163,6 +168,11 @@ else
         GOAL = 502 - (presentPos2 - 512);
     else
         GOAL = 522 + (512 - presentPos2);
+    end
+    if GOAL < 50
+        GOAL = 50;
+    elseif GOAL > 1000
+        GOAL = 1000;
     end
     while ((presentPos2 < (GOAL-incr))||(presentPos2 > (GOAL+incr)))
         calllib('dynamixel', 'dxl_write_word', 2, P_GOAL_POSITION, GOAL);
@@ -185,7 +195,9 @@ else
 %     end
     %lineIkine(a1, a2, 250, DEFAULT_PORTNUM);
     moveArm(1, -sign*3, 200, 1000, DEFAULT_PORTNUM);
+    %moveArm(2, -sign*3, 200, 1000, DEFAULT_PORTNUM);
     moveArm(3, 30, 100, 200, DEFAULT_PORTNUM);
+    %moveArm(2, sign*3, 200, 1000, DEFAULT_PORTNUM);
     moveArm(1, (1)*sign*3, 200, 1000, DEFAULT_PORTNUM);
 %     if sign > 0
 %         moveArm(1, -8, 100, 1000, Port);
@@ -202,7 +214,7 @@ else
     % need to move from midpoint to next position, the quadrant of choice is
     % the opposite to the starting position
 %     startPos = [-sign*5, 250, 0];
-    startPos = [0, c, 0];
+    startPos = [1, c, 0];
     
 %     if sign < 0
 %         
