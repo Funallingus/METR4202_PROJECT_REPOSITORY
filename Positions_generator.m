@@ -15,7 +15,7 @@ for i = 0:13
     Positions = [Positions; [225, 12.5+25*i, 0]];
 end
 
-
+Positions = [Positions(14: -1: 1, :); Positions(28:-1:15, :)];
 
 
 
