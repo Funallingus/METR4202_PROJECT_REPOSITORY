@@ -1,16 +1,23 @@
 xDistance = 550;
 yDistance = 350;
 yOffset = 35;
-Port = 19;
+Port = 3;
 abort(Port);
-yConv = (cnrPoints(2) + cnrPoints(4)...
-    - cnrPoints(6) - cnrPoints(8))/yDistance;
+Positions_generator;
 
-xConv = (cnrPoints(3) + cnrPoints(5)...
-    - cnrPoints(1) - cnrPoints(7))/xDistance;
+% yConv = (cnrPoints(2) + cnrPoints(4)...
+%     - cnrPoints(6) - cnrPoints(8))/yDistance;
+% 
+% xConv = (cnrPoints(3) + cnrPoints(5)...
+%     - cnrPoints(1) - cnrPoints(7))/xDistance;
 xConv = (size(frame, 2))/550;
 yConv = (size(frame, 1))/350;
 start = 194+257;
+
+for i = 1 : size(Positions, 1);
+    Positions(i, 1) = Positions(i, 1) * xConv;
+    Positions(i, 2) = Positions(i, 2) * yConv;
+end
 
 cent = [];
 final_coords = [size(frame, 2) - 350, 10; size(frame, 2) - 350, 200; size(frame, 2) - 350, 300];
@@ -39,7 +46,7 @@ for i = 1 : 3
 %     LAB3(3, [0, start, 0], [centX, centY, 0]);
     abort(Port);
     sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
-            final_coords(i,:), workspace);
+            Positions(i,:), workspace);
     array = [];
     for m = 1 : 1: size(sequence, 1)
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]]

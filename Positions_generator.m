@@ -8,14 +8,14 @@
 Positions = [];
 
 for i = 0:13
-    Positions = [Positions; [275, 12.5+25*i, 0]];
+    Positions = [Positions; [495, 12.5+25*i]];
 end
 
 for i = 0:13
-    Positions = [Positions; [225, 12.5+25*i, 0]];
+    Positions = [Positions; [450, 12.5+25*i]];
 end
 
-Positions = [Positions(14: -1: 1, :); Positions(28:-1:15, :)];
+% Positions = [Positions(14: -1: 1, :); Positions(28:-1:15, :)];
 
 
 
