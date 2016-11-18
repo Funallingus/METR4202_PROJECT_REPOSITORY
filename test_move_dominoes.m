@@ -25,7 +25,7 @@ final_coords = [size(frame, 2) - 350, 10; size(frame, 2) - 350, 200; size(frame,
 
 for i = 1 : size(domino, 2)
     workspace = obstructionMap';
-    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv + xOffset);
+    centX = round((centroid{i}(1) - (size(frame, 2)/2))/xConv - xOffset);
     centY = round((size(frame, 1) - centroid{i}(2))/yConv) + yOffset;
     if(centY < 150 && abs(centX) < 150)
         continue;
