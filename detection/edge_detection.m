@@ -1,4 +1,4 @@
-function [domino, dominoBoxDimensions, obstructionMap, centroid, turnTableCentroid, dotCount] = ...
+function [domino, dominoBoxDimensions, obstructionMap, centroid, dotCount] = ...
                 edge_detection(currentImage, model, referenceLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
@@ -183,7 +183,7 @@ for i = 1 : size(dominoCandidate, 2)
         
         plot(dominoCandidateBox_x{i}, dominoCandidateBox_y{i}, 'LineWidth', 2, 'Color', 'g');
         dotCount = [dotCount; find_circles(domino{count})];
-        strmax = sprintf('Domino= %g:%g', dotCount(i, 1), dotCount(i, 2));
+        strmax = sprintf('Domino= %g:%g', dotCount(end, 1), dotCount(end, 2));
         text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
            'FontSize', 8);
         drawnow; 
