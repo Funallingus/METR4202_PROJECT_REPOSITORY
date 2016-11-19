@@ -65,6 +65,7 @@ sign = 1;
 % libfunctions('dynamixel');
 DEFAULT_BAUDNUM = 1;        % Baud rate
 P_PRESENT_POSITION = 36;       % Dynamixal port for setting goal pos
+P_SPEED = 32;
 calllib('dynamixel', 'dxl_initialize', DEFAULT_PORTNUM, DEFAULT_BAUDNUM);
 if startPos(1) == 0
     sign = nextPos(1)/abs(nextPos(1));
@@ -148,6 +149,7 @@ else
 %     moveArm(2, -8, 50, 200, DEFAULT_PORTNUM);
     %moveArm(2, -sign*8, 50, 200, DEFAULT_PORTNUM);
     incr = 2;
+    calllib('dynamixel','dxl_write_word',1, P_SPEED, 150); %USUALLY max 1023
     presentPos1 = int32(calllib( 'dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
     if presentPos1 >= 512
         GOAL = 502 - (presentPos1 - 512);
@@ -163,6 +165,7 @@ else
         calllib('dynamixel', 'dxl_write_word', 1, P_GOAL_POSITION, GOAL);
         presentPos1 = int32(calllib('dynamixel', 'dxl_read_word', 1 ,P_PRESENT_POSITION));
     end
+    calllib('dynamixel','dxl_write_word',2, P_SPEED, 150); %USUALLY max 1023
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     if presentPos2 >= 512
         GOAL = 502 - (presentPos2 - 512);
