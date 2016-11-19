@@ -165,6 +165,7 @@ else
         calllib('dynamixel', 'dxl_write_word', 1, P_GOAL_POSITION, GOAL);
         presentPos1 = int32(calllib('dynamixel', 'dxl_read_word', 1 ,P_PRESENT_POSITION));
     end
+    
     calllib('dynamixel','dxl_write_word',2, P_SPEED, 150); %USUALLY max 1023
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     if presentPos2 >= 512
@@ -271,8 +272,11 @@ delta2;
 % end
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
-
-moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
+if delta1 > 20
+    moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
+else
+    fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM)
+end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 
 
