@@ -1,9 +1,9 @@
 %LAB2init;
 close all
-Port = 3;
+Port = 20;
 abort(Port);
-moveArm(1, 110, 100, 500, Port);
-moveArm(2, 100, 100, 500, Port);
+moveArm(1, -110, 100, 500, Port);
+moveArm(2, -100, 100, 500, Port);
 
 % clear cam;
 
@@ -21,7 +21,7 @@ moveArm(2, 100, 100, 500, Port);
 for i = 1 : 3
   frame = snapshot(cam);  
 end
-c = clock();
+d = clock();
 % [frame, cnrPoints, allPoints, tform] = detect_checkerboard(frame);
 frame = crop_frame(frame, cnrPoints, allPoints, tform);
 %[boxPolygon, centroid] = find_fiducial(frame, depthIm);

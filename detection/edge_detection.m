@@ -97,11 +97,12 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
             end
         end        
     end
-    if blobMeasurements(k).Area > 0.175 * frameSize && blobMeasurements(k).Area < 0.21 * frameSize
-%         blobMeasurements(k).Area
-%         x = [x1, x2, x2, x1, x1];
-%         y = [y1, y1, y2, y2, y1];
-%         plot(x, y, 'LineWidth', 2);
+    blobMeasurements(k).Area
+    if blobMeasurements(k).Area > 0.15 * frameSize && blobMeasurements(k).Area < 0.23 * frameSize
+
+        x = [x1, x2, x2, x1, x1];
+        y = [y1, y1, y2, y2, y1];
+        plot(x, y, 'LineWidth', 2);
         Turntable = [x1, y1, x2, y2];
     end
 end
@@ -184,7 +185,7 @@ for i = 1 : size(dominoCandidate, 2)
         dotCount = [dotCount; find_circles(domino{count})];
         strmax = sprintf('Domino= %g:%g', dotCount(i, 1), dotCount(i, 2));
         text(dominoCanidate_box_dimensions{i}(1), dominoCanidate_box_dimensions{i}(2),strmax,'HorizontalAlignment','left', ...
-            'FontSize', 8);
+           'FontSize', 8);
         drawnow; 
         
         count = count + 1;
