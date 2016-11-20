@@ -87,10 +87,10 @@ while ((presentPos < (GOAL1-incr))||(presentPos > (GOAL1+incr)))
     end
     presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
 
-    if loopVal > 50
-        fprintf('breaking');
-        break;
-    end
+%     if loopVal > 50
+%         fprintf('breaking');
+%         break;
+%     end
 end
 presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
 if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))
@@ -106,10 +106,10 @@ if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))
         else
             loopCount = 0;
         end
-        if loopVal > 50
-            fprintf('breaking');
-            break;
-        end
+%         if loopVal > 50
+%             fprintf('breaking');
+%             break;
+%         end
     end
 end
 end

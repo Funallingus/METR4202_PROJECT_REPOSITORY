@@ -11,6 +11,7 @@ nextPos
 % unplug the usb connection)
 speed = 100;
 torque = 200;
+P_TORQUE = 34;
 DEFAULT_PORT = Port;
 P_GOAL_POSITION = 30;       % Dynamixal port for setting goal pos
 DEFAULT_PORTNUM = Port;
@@ -149,8 +150,9 @@ else
 %     moveArm(2, -8, 50, 200, DEFAULT_PORTNUM);
     %moveArm(2, -sign*8, 50, 200, DEFAULT_PORTNUM);
     incr = 2;
-    calllib('dynamixel','dxl_write_word',1, P_SPEED, 150); %USUALLY max 1023
+    calllib('dynamixel','dxl_write_word', 1, P_SPEED, 100); %USUALLY max 1023
     presentPos1 = int32(calllib( 'dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
+    calllib('dynamixel','dxl_write_word', 1, P_TORQUE, 1000); %USUALLY 500
     if presentPos1 >= 512
         GOAL = 502 - (presentPos1 - 512);
     else
@@ -166,7 +168,10 @@ else
         presentPos1 = int32(calllib('dynamixel', 'dxl_read_word', 1 ,P_PRESENT_POSITION));
     end
     
-    calllib('dynamixel','dxl_write_word',2, P_SPEED, 150); %USUALLY max 1023
+    calllib('dynamixel','dxl_write_word',2, P_SPEED, 100); %USUALLY max 1023
+    calllib('dynamixel','dxl_write_word', 2, P_TORQUE, 1000); %USUALLY 500
+    
+    
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     if presentPos2 >= 512
         GOAL = 502 - (presentPos2 - 512);
@@ -272,10 +277,10 @@ delta2;
 % end
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
-if delta1 > 25
+if abs(delta1) > 10
     moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
 else
-    fineMove(delta1, delta2, 80, DEFAULT_PORTNUM);
+   fineMove(delta1, delta2, 90, DEFAULT_PORTNUM);
 end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 

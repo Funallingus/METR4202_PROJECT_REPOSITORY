@@ -1,4 +1,4 @@
-function moveArm(motorPort, angle, speed, torque, port)
+function catchDominoPlease(motorPort, angle, speed, torque, port)
 %motorPort = motor port (argument = 1, 2, 3)
 %angle = count in degrees (whole interger)
 %speed = velocity to move the arm in steps/sec
@@ -66,14 +66,13 @@ elseif motorPort == 3
     elseif GOAL > 920
         GOAL = 919;
     end
-    incr = 4;
-    if angle > 29 && angle < 1000
-        calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 55); %USUALLY 500
-        calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 30); %USUALLY max 1023
-    else
-        calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 500); %USUALLY 500
-        calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 100); %USUALLY max 1023
-    end
+    %if angle > 0 && angle < 1000
+    %    calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 55); %USUALLY 500
+    %    calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 30); %USUALLY max 1023
+%     else
+%         calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 200); %USUALLY 500
+%         calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 100); %USUALLY max 1023
+    %end
 end
 GOAL;
 count = 0;
@@ -81,12 +80,13 @@ loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
+    loopVal = presentPos;
     calllib('dynamixel', 'dxl_write_word', motorPort, P_GOAL_POSITION, GOAL);
-    if motorPort == 3 && angle > 29 && angle < 90 && presentPos > 650
+    if motorPort == 3
         presentVel = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_VEL));
-        if presentVel < 1
+        if presentVel < 2%1
             count = count + 1;
-            if count > 10
+            if count > 8%10
                 break;
             end
         end

@@ -66,6 +66,7 @@ numberOfBlobs = size(blobMeasurements, 1);
 rects = [];
 index = 1;
 Turntable = [0, 0, 0, 0];
+turnTableSize = 0;
 frameSize = size(BW, 1) * size(BW, 2)/20;
 for k = 1 : numberOfBlobs % Loop through all blobs.
     rects = blobMeasurements(k).BoundingBox; % Get list ofpixels in current blob.
@@ -76,9 +77,9 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
 
     width = rects(3)/resize;
     height = rects(4)/resize;
-%     x = [x1, x2, x2, x1, x1];
-%     y = [y1, y1, y2, y2, y1];
-%     plot(x, y, 'LineWidth', 2);
+    x = [x1, x2, x2, x1, x1];
+    y = [y1, y1, y2, y2, y1];
+    plot(x, y, 'LineWidth', 2);
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.025) &&...
@@ -102,13 +103,15 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
             end
         end        
     end
-    blobMeasurements(k).Area
-    if blobMeasurements(k).Area > 0.15 * frameSize && blobMeasurements(k).Area < 0.23 * frameSize
-
+    if blobMeasurements(k).Area > 1000
+        blobMeasurements(k).Area/frameSize
+    end
+    if blobMeasurements(k).Area/frameSize > turnTableSize
 %         x = [x1, x2, x2, x1, x1];
 %         y = [y1, y1, y2, y2, y1];
 %         plot(x, y, 'LineWidth', 2);
         Turntable = [x1, y1, x2, y2];
+        turnTableSize = blobMeasurements(k).Area/frameSize;
     end
 end
 obstructionMap = obstructionMap';
