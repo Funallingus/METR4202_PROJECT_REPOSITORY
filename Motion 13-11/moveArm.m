@@ -71,8 +71,8 @@ elseif motorPort == 3
         calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 55); %USUALLY 500
         calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 30); %USUALLY max 1023
     else
-        calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, 500); %USUALLY 500
-        calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, 100); %USUALLY max 1023
+        calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, speed); %USUALLY 500
+        calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, torque); %USUALLY max 1023
     end
 end
 GOAL;

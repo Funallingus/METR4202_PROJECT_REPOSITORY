@@ -3,7 +3,7 @@ function  fineMove(pivotAngle, jointAngle1, speed, port)
 steps1 = round(pivotAngle*1024/300);
 steps2 = round(jointAngle1*1024/300);
 %loadlibrary('dynamixel', 'dynamixel.h');
-speed = 0.5*speed;
+
 %% Declarations
 %libfunctions('dynamixel');
 DEFAULT_BAUDNUM = 1;        % Baud rate
@@ -39,7 +39,7 @@ if pivotAngle > 9000
         GOAL1 = 512;
 else 
     if steps1 == 0
-        incr = 2;
+        incr = 3;
     end
     presentPos1 = int32(calllib( 'dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
     GOAL1 = presentPos1 + steps1;
@@ -49,7 +49,7 @@ if jointAngle1 > 9000
         GOAL2 = 512;
 else 
     if steps2 == 0
-        incr = 2;
+        incr = 3;
     end
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     GOAL2 = presentPos2 + steps2;
@@ -61,7 +61,6 @@ if GOAL1 > 816
 elseif GOAL1 < 200
     GOAL1 = 200;
 end
-incr = 2;
 
 if GOAL2 < 50
     GOAL2 = 50;

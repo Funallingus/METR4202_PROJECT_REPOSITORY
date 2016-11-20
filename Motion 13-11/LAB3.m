@@ -280,7 +280,7 @@ delta2;
 if abs(delta1) > 10
     moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
 else
-   fineMove(delta1, delta2, 90, DEFAULT_PORTNUM);
+   fineMove(delta1, delta2, 80, DEFAULT_PORTNUM);
 end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 
