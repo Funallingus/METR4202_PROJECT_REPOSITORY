@@ -1,4 +1,4 @@
-function [domino, dominoBoxDimensions, obstructionMap, centroid, dotCount] = ...
+function [domino, dominoBoxDimensions, obstructionMap, centroid, turnTableCentroid, dotCount] = ...
                 edge_detection(currentImage, model, referenceLibrary, dice)
 %close all
 %%function takes in a 1980x1020 image
@@ -37,6 +37,7 @@ BW = im2bw(F, graythresh(F));
 
 %% Adds bounding box to all of the objects (rectangles) found
 %%by the edge detection toolbox
+turnTableCentroid= {};
 %{
 [B,L,N,A] = bwboundaries(BW);
 figure; imshow(currentImage); hold on;
@@ -72,8 +73,12 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     y1 = rects(2)/resize;
     x2 = x1 + rects(3)/resize;
     y2 = y1 + rects(4)/resize;
+
     width = rects(3)/resize;
     height = rects(4)/resize;
+%     x = [x1, x2, x2, x1, x1];
+%     y = [y1, y1, y2, y2, y1];
+%     plot(x, y, 'LineWidth', 2);
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.025) &&...
@@ -100,9 +105,9 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     blobMeasurements(k).Area
     if blobMeasurements(k).Area > 0.15 * frameSize && blobMeasurements(k).Area < 0.23 * frameSize
 
-        x = [x1, x2, x2, x1, x1];
-        y = [y1, y1, y2, y2, y1];
-        plot(x, y, 'LineWidth', 2);
+%         x = [x1, x2, x2, x1, x1];
+%         y = [y1, y1, y2, y2, y1];
+%         plot(x, y, 'LineWidth', 2);
         Turntable = [x1, y1, x2, y2];
     end
 end

@@ -2,10 +2,10 @@ function  fineMove(pivotAngle, jointAngle1, speed, port)
 
 steps1 = round(pivotAngle*1024/300);
 steps2 = round(jointAngle1*1024/300);
-loadlibrary('dynamixel', 'dynamixel.h');
+%loadlibrary('dynamixel', 'dynamixel.h');
 speed = 0.5*speed;
 %% Declarations
-libfunctions('dynamixel');
+%libfunctions('dynamixel');
 DEFAULT_BAUDNUM = 1;        % Baud rate
 DEFAULT_PORTNUM = port;     % Port on computer
 P_PRESENT_POSITION = 36;    % Dynamixal port for present pos
@@ -85,12 +85,32 @@ while ((presentPos < (GOAL1-incr))||(presentPos > (GOAL1+incr)))
     else
         loopCount = 0;
     end
-    if loopVal > 25
+    presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+
+    if loopVal > 50
         fprintf('breaking');
         break;
     end
 end
-
-
+presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))
+    count = 0;
+    loopCount = 0;
+    loopVal = 0;
+    while ((presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr)))
+        loopVal = presentPos2;
+        calllib('dynamixel', 'dxl_write_word', 2, P_GOAL_POSITION, GOAL2);
+        presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+        if presentPos2 == loopVal;
+            loopCount = loopCount + 1;
+        else
+            loopCount = 0;
+        end
+        if loopVal > 50
+            fprintf('breaking');
+            break;
+        end
+    end
+end
 end
 

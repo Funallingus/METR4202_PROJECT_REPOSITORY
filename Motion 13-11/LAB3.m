@@ -272,10 +272,10 @@ delta2;
 % end
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
-if delta1 > 20
+if delta1 > 25
     moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
 else
-    fineMove(delta1, delta2, 0, DEFAULT_PORTNUM)
+    fineMove(delta1, delta2, 80, DEFAULT_PORTNUM);
 end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 

@@ -1,6 +1,6 @@
 %LAB2init;
 close all
-Port = 20;
+Port = 18;
 abort(Port);
 moveArm(1, -110, 100, 500, Port);
 moveArm(2, -100, 100, 500, Port);
@@ -18,7 +18,7 @@ moveArm(2, -100, 100, 500, Port);
 %[frame, depthIm, time, meta] = capture_frame(colorVid, depthVid);
 %imwrite(frame, 'workspace.jpg');
 % snapshot(cam);
-for i = 1 : 3
+for i = 1 : 5
   frame = snapshot(cam);  
 end
 d = clock();

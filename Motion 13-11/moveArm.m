@@ -92,15 +92,15 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
         end
     end
     presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION));
-    if presentPos == loopVal;
-        loopCount = loopCount + 1;
-    else
-        loopCount = 0;
-    end
-    if loopVal > 25
-        fprintf('breaking');
-        break;
-    end
+%     if presentPos == loopVal;
+%         loopCount = loopCount + 1;
+%     else
+%         loopCount = 0;
+%     end
+%     if loopVal > 25
+%         fprintf('breaking');
+%         break;
+%     end
 end
 
 
