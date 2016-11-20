@@ -1,8 +1,9 @@
 function  fineMove(pivotAngle, jointAngle1, speed, port)
+
 steps1 = round(pivotAngle*1024/300);
 steps2 = round(jointAngle1*1024/300);
 loadlibrary('dynamixel', 'dynamixel.h');
-
+speed = 0.5*speed;
 %% Declarations
 libfunctions('dynamixel');
 DEFAULT_BAUDNUM = 1;        % Baud rate
@@ -13,14 +14,20 @@ P_SPEED = 32;
 P_TORQUE = 34;
 P_VEL = 38;
 %% Calibrate Connection
-ratio = pivotAngle/jointAngle1
-if pivotAngle > jointAngle1
-    speed1 = speed
-    speed2 = speed/ratio;
+if (jointAngle1 ~= 0) && (pivotAngle ~= 0)
+    ratio = abs(pivotAngle/jointAngle1)
+    if pivotAngle > jointAngle1
+        speed1 = speed
+        speed2 = speed/ratio;
+    else
+        speed1 = speed*ratio;
+        speed2 = speed;
+    end
 else
-    speed1 = speed*ratio;
+    speed1 = speed;
     speed2 = speed;
 end
+
 calllib('dynamixel', 'dxl_initialize', DEFAULT_PORTNUM, DEFAULT_BAUDNUM);
 calllib('dynamixel','dxl_write_word',1, P_TORQUE, 1000); %USUALLY 500
 calllib('dynamixel','dxl_write_word',1, P_SPEED, speed1); %USUALLY max 1023
