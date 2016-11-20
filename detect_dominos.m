@@ -1,6 +1,6 @@
 %LAB2init;
 close all
-Port = 3;
+Port = 18;
 abort(Port);
 moveArm(1, -110, 100, 1000, Port);
 moveArm(2, -100, 100, 1000, Port);

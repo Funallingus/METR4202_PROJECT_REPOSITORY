@@ -266,8 +266,8 @@ elseif GOAL <= 200
     delta2 = -(270+abs(theta2));
 end
 
-delta1;
-delta2;
+delta1
+delta2
 % if theta1 > 89
 %     delta1 = -(theta1 - 90);
 %     delta2 = -theta2;
@@ -278,7 +278,7 @@ delta2;
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
 if abs(delta1) > 10
-    moveAngle(delta1, delta2, 0, 100, DEFAULT_PORTNUM);
+    moveAngle(delta1, delta2, 0, 110, DEFAULT_PORTNUM);
 else
     %fineAngle(pivotAngle, jointAngle1, jointAngle2, DEFAULT_PORT)
     fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM);

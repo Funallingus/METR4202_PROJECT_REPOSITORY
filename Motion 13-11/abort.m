@@ -10,7 +10,7 @@ function abort(port)
 % moveArm(3, -45, 60, 200, port);
 
 % make all the arms point straight
-easy_move(10000, 10000, 10000, 115, port);
+easy_move(10000, 10000, 10000, 120, port);
 
 % easy_move(90, 60000, 60000, 50, port);
 % easy_move(1, 75, 600, 50, port);

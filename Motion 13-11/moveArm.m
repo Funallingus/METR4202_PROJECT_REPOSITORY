@@ -9,8 +9,8 @@ function moveArm(motorPort, angle, speed, torque, port)
 % else 
 %     steps = round(angle*1024/300);
 % end
-angle;
-steps = round(angle*1024/300);
+angle
+steps = round(angle*1024/300)
 % loadlibrary('dynamixel', 'dynamixel.h');
 
 %% Declarations
@@ -53,7 +53,7 @@ if motorPort == 1
     elseif GOAL < 200
         GOAL = 200;
     end
-    incr = 3;
+    incr = 4;
 elseif motorPort == 2
     if GOAL < 50
         GOAL = 50;
@@ -80,6 +80,8 @@ count = 0;
 loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
+%GOAL = 500
+GOAL
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
     calllib('dynamixel', 'dxl_write_word', motorPort, P_GOAL_POSITION, GOAL);
     if motorPort == 3 && angle > 29 && angle < 90 && presentPos > 650
