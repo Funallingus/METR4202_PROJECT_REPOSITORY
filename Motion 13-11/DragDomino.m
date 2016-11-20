@@ -7,6 +7,11 @@ function DragDomino(Port, OriginPos, Sequence)
 %OriginPos = getCoords(Port);
 
 %EndEffector(84, 1); % Raise the end-effector
+    
+if Sequence(1)/abs(Sequence(1)) > 0
+    Sequence(1+1) = Sequence(1+1) + 7;
+    Sequence(1) = Sequence(1)-3;
+end
 LAB3(Port, OriginPos, Sequence(1:3)); % go to start of path
 if Sequence(1) > 0
     sign = 1;
@@ -23,6 +28,11 @@ count = 0;
 for x = 1:(Length-1)
     %Length;
     x = 3*(x -1) +1;
+%     
+%     if Sequence(x)/abs(Sequence(x)) > 0
+%         Sequence(x+1) = Sequence(x+1) + 7;
+%     end
+    
     %A = Sequence(x:(x+2));
     %B = Sequence((x+3):(x+5));
     %currentPos = getCoords(Port);
@@ -35,17 +45,17 @@ for x = 1:(Length-1)
     %%%%swapped these two
     %if Sequence(x) > 40 && mod(count, 4) == 3 && currentPos(1) > 25
     if abs(Sequence(x)) > 40 && mod(count, 4) == 3 && ...
-            abs(currentPos(1)) > 25 && ...
-            ((abs(Sequence(x)) + abs(currentPos(1)) < 80))
+            currentPos(1) > 25 && ...
+            (abs(abs(Sequence(x)) - abs(currentPos(1)))) < 80
         
         %LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
         currentPos = getCoords(Port);
-        if currentPos(1)/abs(currentPos(1)) ~= Sequence(1)/abs(Sequence)
+        if currentPos(1)/abs(currentPos(1)) ~= Sequence(1)/abs(Sequence(1))
             LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
             C = getCoords(Port);
             LAB3(Port, C, Sequence((x+3):(x+5)));
         else
-            LAB3(Port, currentPos, Sequence((x+3):(x+5)));
+        LAB3(Port, currentPos, Sequence((x+3):(x+5)));
         end
     else
         LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));

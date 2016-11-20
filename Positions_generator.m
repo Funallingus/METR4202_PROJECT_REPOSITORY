@@ -7,7 +7,7 @@
 
 Positions = [];
 
-columnSpace = 25; 
+columnSpace = 30; 
 rowSpace = 25;
 
 for j = 0:3

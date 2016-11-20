@@ -2,8 +2,8 @@
 close all
 Port = 6;
 abort(Port);
-moveArm(1, -110, 100, 1000, Port);
-moveArm(2, -100, 100, 1000, Port);
+moveArm(1, -110, 120, 1000, Port);
+moveArm(2, -100, 120, 1000, Port);
 
 % clear cam;
 
