@@ -24,6 +24,7 @@ frame = imcrop(J2, [cropX, cropY, cropWidth, cropHeight]);
 
 figure(4); imshow(frame); hold on;
 plot(cnrPoints(:, 1), cnrPoints(:, 2), 'rx', 'MarkerSize', 15, 'LineWIdth', 5);
+drawnow;
 hold off;
 
 

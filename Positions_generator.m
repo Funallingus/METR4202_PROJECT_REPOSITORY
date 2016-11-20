@@ -7,15 +7,19 @@
 
 Positions = [];
 
-for i = 0:13
-    Positions = [Positions; [530, 12.5+25*i]];
+columnSpace = 25; 
+rowSpace = 50;
+
+for j = 0:3
+
+for i = 1:6
+    Positions = [Positions; [(515 - columnSpace*j), (20 + rowSpace*i), 0]];
+end
 end
 
-for i = 0:13
-    Positions = [Positions; [490, 12.5+25*i]];
-end
 
-% Positions = [Positions(14: -1: 1, :); Positions(28:-1:15, :)];
+% Positions
+% length(Positions)
 
 
 

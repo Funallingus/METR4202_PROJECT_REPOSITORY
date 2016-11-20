@@ -2,7 +2,7 @@ xDistance = 550;
 yDistance = 350;
 yOffset = 20;
 xOffset = 5;
-Port = 18;
+Port = 3;
 abort(Port);
 Positions_generator;
 
@@ -71,14 +71,17 @@ for i = 1 : size(domino, 2)
     end
     cent = [cent; centX, centY];
     workspace = workspace';
-%     figure(); imshow(workspace);
+    figure(); imshow(workspace);
     
-%     LAB3(3, [0, start, 0], [centX, centY, 0]);
+    LAB3(3, [0, start, 0], [centX, centY, 0]);
+
+
     abort(Port);
     sequence = A_Star1([centroid{i}(1) , centroid{i}(2)], ...
             Positions(i,:), workspace);
     figure; imshow(workspace); hold on;
     plot(sequence(:, 1), sequence(:, 2), 'LineWidth', 3);
+    drawnow;  
     hold off;
     
     array = [];
@@ -86,6 +89,7 @@ for i = 1 : size(domino, 2)
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]];
     end
     DragDomino(Port, [0, start, 0], array);
+%     Orientate2(Port, [array(end - 2), array(end - 1)]);
     dominoBoxDimensions{i}(1) = sequence(end, 1) - dominoBoxDimensions{i}(3)/2;
     dominoBoxDimensions{i}(2) = sequence(end, 1) - dominoBoxDimensions{i}(4)/2;
 end

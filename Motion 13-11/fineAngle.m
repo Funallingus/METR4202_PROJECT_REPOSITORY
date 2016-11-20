@@ -7,7 +7,7 @@ assignin(ws, 'goalAngle1', pivotAngle);
 assignin(ws, 'goalAngle2', jointAngle1);
 assignin(ws, 'goalAngle3', jointAngle2);
 torque = 1020;
-speed = 80;
+speed = 100;
 
 moveArm(3, jointAngle2/2, speed, 1020, DEFAULT_PORT);
 if pivotAngle > 15 && jointAngle1 > 15

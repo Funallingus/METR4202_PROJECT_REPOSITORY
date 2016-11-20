@@ -40,7 +40,7 @@ for x = 1:(Length-1)
     end
 end
 
-EndEffector(Port, 1); % Raise the end-effector 
+EndEffector(Port, 1, sign); % Raise the end-effector 
 
 end
 
