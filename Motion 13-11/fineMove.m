@@ -14,6 +14,7 @@ P_SPEED = 32;
 P_TORQUE = 34;
 P_VEL = 38;
 %% Calibrate Connection
+
 if (jointAngle1 ~= 0) && (pivotAngle ~= 0)
     ratio = abs(pivotAngle/jointAngle1)
     if pivotAngle > jointAngle1
@@ -31,7 +32,7 @@ end
 calllib('dynamixel', 'dxl_initialize', DEFAULT_PORTNUM, DEFAULT_BAUDNUM);
 calllib('dynamixel','dxl_write_word',1, P_TORQUE, 1000); %USUALLY 500
 calllib('dynamixel','dxl_write_word',1, P_SPEED, speed1); %USUALLY max 1023
-calllib('dynamixel','dxl_write_word',2, P_TORQUE, 800); %USUALLY 500
+calllib('dynamixel','dxl_write_word',2, P_TORQUE, 1000); %USUALLY 500
 calllib('dynamixel','dxl_write_word',2, P_SPEED, speed2); %USUALLY max 1023
 incr = 3;
 
@@ -54,8 +55,8 @@ else
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     GOAL2 = presentPos2 + steps2;
 end
-% motor limits
 
+% motor limits
 if GOAL1 > 816
     GOAL1 = 815;
 elseif GOAL1 < 200
@@ -68,48 +69,37 @@ elseif GOAL2 > 1000
     GOAL2 = 1000;
 end
 
-GOAL1
-GOAL2
+GOAL3 = int32(calllib('dynamixel', 'dxl_read_word', 3, P_PRESENT_POSITION));
 count = 0;
 loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib('dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
-while ((presentPos < (GOAL1-incr))||(presentPos > (GOAL1+incr)))
-    loopVal = presentPos;
+while ((presentPos < (GOAL1-incr))||(presentPos > (GOAL1+incr))) && ((presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr)))
     calllib('dynamixel', 'dxl_write_word', 1, P_GOAL_POSITION, GOAL1);
     calllib('dynamixel', 'dxl_write_word', 2, P_GOAL_POSITION, GOAL2);
+    calllib('dynamixel', 'dxl_write_word', 3, P_GOAL_POSITION, GOAL3);
     presentPos = int32(calllib('dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
-    if presentPos == loopVal;
-        loopCount = loopCount + 1;
-    else
-        loopCount = 0;
-    end
     presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+end
 
-%     if loopVal > 50
-%         fprintf('breaking');
-%         break;
-%     end
-end
-presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
-if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))
-    count = 0;
-    loopCount = 0;
-    loopVal = 0;
-    while ((presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr)))
-        loopVal = presentPos2;
-        calllib('dynamixel', 'dxl_write_word', 2, P_GOAL_POSITION, GOAL2);
-        presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
-        if presentPos2 == loopVal;
-            loopCount = loopCount + 1;
-        else
-            loopCount = 0;
-        end
-%         if loopVal > 50
-%             fprintf('breaking');
-%             break;
+% if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))
+%     count = 0;
+%     loopCount = 0;
+%     loopVal = 0;
+%     while ((presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr)))
+%         loopVal = presentPos2;
+%         calllib('dynamixel', 'dxl_write_word', 2, P_GOAL_POSITION, GOAL2);
+%         presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+%         if presentPos2 == loopVal;
+%             loopCount = loopCount + 1;
+%         else
+%             loopCount = 0;
 %         end
-    end
-end
+% %         if loopVal > 50
+% %             fprintf('breaking');
+% %             break;
+% %         end
+%     end
+% end
 end
 
