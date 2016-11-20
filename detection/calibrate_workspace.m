@@ -1,4 +1,4 @@
-Port = 22;
+Port = 6;
 abort(Port);
 moveArm(1, -110, 100, 500, Port);
 moveArm(2, -100, 100, 500, Port);

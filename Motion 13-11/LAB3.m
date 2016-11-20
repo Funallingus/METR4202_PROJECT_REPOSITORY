@@ -277,11 +277,24 @@ delta2
 % end
 %% move the determined angles
 % moveAngle(motor1 angle, motor2 angle, motor3 angle, speed, serial port number)
-if abs(delta1) > 10
+if abs(delta1) > 10 || abs(delta2) > 10
     moveAngle(delta1, delta2, 0, 110, DEFAULT_PORTNUM);
+% elseif abs(delta1) < 1.5
+%     moveArm(1, sign*4, 200, 1000, DEFAULT_PORTNUM);
+%     C = getCoords(DEFAULT_PORTNUM);
+%     betweenPoints(DEFAULT_PORTNUM, C, nextPos);
+%     return;
+% elseif abs(delta2) < 1.5
+%     moveArm(2, sign*4, 200, 1000, DEFAULT_PORTNUM);
+%     C = getCoords(DEFAULT_PORTNUM)
+%     fprintf('hi');
+%     betweenPoints(DEFAULT_PORTNUM, C, nextPos);
+%     return;
 else
     %fineAngle(pivotAngle, jointAngle1, jointAngle2, DEFAULT_PORT)
-    fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM);
+    %fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM);
+    fineMove(delta1, delta2, 120, DEFAULT_PORTNUM);
+    
 end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);
 

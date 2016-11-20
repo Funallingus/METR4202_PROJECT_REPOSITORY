@@ -3,13 +3,13 @@ function runSequence(Port, Sequence)
 % Sequence is a set of points in a array form [[x,y,z],......[X, Y, Z]]
 % OriginPos is where the are is originally (not where it starts dragging)
 %[a, b, c]
-moveArm(3, 60000, 200, 200, Port);
-moveArm(3, 15, 200, 200, Port);
-moveArm(3, 15, 200, 200, Port);
-OriginPos = getCoords(Port);
+% moveArm(3, 60000, 200, 200, Port);
+% moveArm(3, 15, 200, 200, Port);
+% moveArm(3, 15, 200, 200, Port);
+% OriginPos = getCoords(Port);
 
 %EndEffector(84, 1); % Raise the end-effector
-LAB3(Port, OriginPos, Sequence(1:3)); % go to start of path
+%LAB3(Port, OriginPos, Sequence(1:3)); % go to start of path
 if Sequence(1) > 0
     sign = 1;
 else
@@ -20,8 +20,8 @@ end
 % moveArm(3, 60000, 200, 200, Port);
 % moveArm(3, 15, 200, 200, Port);
 % moveArm(3, 15, 200, 200, Port);
-moveArm(3, 15, 200, 200, Port);
-moveArm(3, 8, 40, 200, Port);
+% % moveArm(3, 15, 200, 200, Port);
+% % moveArm(3, 8, 40, 200, Port);
 
 Size = size(Sequence);
 %length(Sequence) = Size(2)/3; %number  of points in path Sequence
@@ -45,6 +45,6 @@ for x = 1:(Length-1)
 end
 
 %EndEffector(Port, 1); % Raise the end-effector 
-moveArm(3, 60000, 200, 200, Port);
+%moveArm(3, 60000, 200, 200, Port);
 
 end

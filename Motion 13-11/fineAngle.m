@@ -46,11 +46,11 @@ elseif pivotAngle > 6
     moveArm(2, jointAngle1/2, speed, 1000, DEFAULT_PORT);
     moveArm(1, pivotAngle/3, speed*0.5, 1000, DEFAULT_PORT);
 elseif jointAngle1 > 6
-    moveArm(2, jointAngle1/3, speed*0.5, 1000, DEFAULT_PORT);
+    moveArm(2, jointAngle1/3.33, speed*0.7, 1000, DEFAULT_PORT);
     moveArm(1, pivotAngle/2, speed, 1000, DEFAULT_PORT);
-    moveArm(2, jointAngle1/3, speed*0.5, 1000, DEFAULT_PORT);
+    moveArm(2, jointAngle1/3.33, speed*0.7, 1000, DEFAULT_PORT);
     moveArm(1, pivotAngle/2, speed, 1000, DEFAULT_PORT);
-    moveArm(2, jointAngle1/3, speed*0.5, 1020, DEFAULT_PORT);
+    moveArm(2, jointAngle1/3.33, speed*0.7, 1020, DEFAULT_PORT);
 else
     moveArm(1, pivotAngle/2, speed*0.4, 1000, DEFAULT_PORT);
     moveArm(2, jointAngle1/2, speed*0.4, 1000, DEFAULT_PORT);

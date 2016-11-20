@@ -2,7 +2,7 @@ xDistance = 550;
 yDistance = 350;
 yOffset = 20;
 xOffset = 5;
-Port = 18;
+Port = 6;
 abort(Port);
 Positions_generator;
 
@@ -45,8 +45,8 @@ for i = 1 : size(domino, 2)
 %             topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.3;
 %             topY = dominoBoxDimensions{k}(2) * 1.1;
 %        end  
-       dominoWidth = dominoBoxDimensions{k}(3) * 1.5;
-       dominoHeight = dominoBoxDimensions{k}(4) * 1.5;
+       dominoWidth = dominoBoxDimensions{k}(3) * 1;
+       dominoHeight = dominoBoxDimensions{k}(4) * 1;
        bottomX = round(centroid{k}(1) - dominoWidth/2);
        bottomY = round(centroid{k}(2) - dominoHeight/2);
        topX = bottomX + dominoWidth;
@@ -89,7 +89,7 @@ for i = 1 : size(domino, 2)
         array = [array, [(sequence(m, 1) - (size(frame, 2)/2))/xConv, round((size(frame, 1) - sequence(m, 2))/yConv) + yOffset, 0]];
     end
     DragDomino(Port, [0, start, 0], array);
-%     Orientate2(Port, [array(end - 2), array(end - 1)]);
+    %Orientate2(Port, [array(end - 2), array(end - 1)]);
     dominoBoxDimensions{i}(1) = sequence(end, 1) - dominoBoxDimensions{i}(3)/2;
     dominoBoxDimensions{i}(2) = sequence(end, 1) - dominoBoxDimensions{i}(4)/2;
 end

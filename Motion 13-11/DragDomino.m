@@ -31,16 +31,28 @@ for x = 1:(Length-1)
     currentPos = getCoords(Port);
     %if mod(count, 5) == 4
     %if (Sequence(x) > 40 || Sequence(x) < 40) && (mod(count, 5) == 4)
-    if Sequence(x) > 40 && mod(count, 4) == 3 && currentPos(1) > 25
+    
+    %%%%swapped these two
+    %if Sequence(x) > 40 && mod(count, 4) == 3 && currentPos(1) > 25
+    if abs(Sequence(x)) > 40 && mod(count, 4) == 3 && ...
+            abs(currentPos(1)) > 25 && ...
+            ((abs(Sequence(x)) + abs(currentPos(1)) < 80))
+        
         %LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
         currentPos = getCoords(Port);
-        LAB3(Port, currentPos, Sequence((x+3):(x+5)));
+        if currentPos(1)/abs(currentPos(1)) ~= Sequence(1)/abs(Sequence)
+            LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
+            C = getCoords(Port);
+            LAB3(Port, C, Sequence((x+3):(x+5)));
+        else
+            LAB3(Port, currentPos, Sequence((x+3):(x+5)));
+        end
     else
         LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
     end
 end
 
-EndEffector(Port, 1, sign); % Raise the end-effector 
+%EndEffector(Port, 1, sign); % Raise the end-effector 
 
 end
 
