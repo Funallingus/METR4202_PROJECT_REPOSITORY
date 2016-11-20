@@ -31,7 +31,7 @@ for i = 1 : size(domino, 2)
         continue;
     end
     for k = 1 : size(dominoBoxDimensions, 2)
-       if i == k
+       if k <= i
            continue;
        end
 %        if k < i
@@ -44,11 +44,13 @@ for i = 1 : size(domino, 2)
 %             bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4)) * 0.9;
 %             topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3)) * 1.3;
 %             topY = dominoBoxDimensions{k}(2) * 1.1;
-%        end   
-       bottomX = dominoBoxDimensions{k}(1);
-       bottomY = (dominoBoxDimensions{k}(2) - dominoBoxDimensions{k}(4));
-       topX = (dominoBoxDimensions{k}(1) + dominoBoxDimensions{k}(3));
-       topY = dominoBoxDimensions{k}(2);
+%        end  
+       dominoWidth = dominoBoxDimensions{k}(3) * 1.5;
+       dominoHeight = dominoBoxDimensions{k}(4) * 1.5;
+       bottomX = round(centroid{k}(1) - dominoWidth/2);
+       bottomY = round(centroid{k}(2) - dominoHeight/2);
+       topX = bottomX + dominoWidth;
+       topY = bottomY + dominoHeight;
        if bottomX < 1
            bottomX = 1;
        end
@@ -56,12 +58,11 @@ for i = 1 : size(domino, 2)
            bottomY = 1;
        end
        if topX > size(obstructionMap, 2)
-           topX = size(obstructionMap, 2);
+           bottomX = round(size(obstructionMap, 2) - dominoWidth);
        end
        if topY > size(obstructionMap, 1)
-           topY = size(obstructionMap, 1);
-       end
-       
+           topY = round(size(obstructionMap, 1) - dominoHeight);
+       end      
        for a = bottomX : topX
             for b = bottomY : topY
                 workspace(round(a), round(b)) = 0;
