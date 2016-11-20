@@ -13,7 +13,7 @@ rowSpace = 25;
 for j = 0:3
 
 for i = 1:6
-    Positions = [Positions; [(535 - columnSpace*j), (20 + rowSpace*i), 0]];
+    Positions = [Positions; [(535 - columnSpace*j), (rowSpace*i), 0]];
 end
 end
 
