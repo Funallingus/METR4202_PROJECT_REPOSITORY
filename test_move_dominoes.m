@@ -2,7 +2,7 @@ xDistance = 550;
 yDistance = 350;
 yOffset = 20;
 xOffset = 5;
-Port = 3;
+Port = 18;
 abort(Port);
 Positions_generator;
 
@@ -71,9 +71,9 @@ for i = 1 : size(domino, 2)
     end
     cent = [cent; centX, centY];
     workspace = workspace';
-    figure(); imshow(workspace);
+%     figure(); imshow(workspace);
     
-    LAB3(3, [0, start, 0], [centX, centY, 0]);
+%     LAB3(Port, [0, start, 0], [centX, centY, 0]);
 
 
     abort(Port);
