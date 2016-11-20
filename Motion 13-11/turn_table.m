@@ -1,7 +1,9 @@
 function turn_table(time, frame, centroid, port)
 % frame is picture
 % 
-speed = (2*pi)/29; %rad/sec
+revTime = 29;
+speed = (2*pi)/revTime; %rad/sec
+
 xDistance = 550;
 yDistance = 350;
 yOffset = 20;
@@ -13,7 +15,8 @@ centX = round((centroid(1) - (size(frame, 2)/2))/xConv - xOffset);
 centY = round((size(frame, 1) - centroid(2))/yConv) + yOffset;
 
 radius = sqrt((turnTable(1) - centX)^2 + (turnTable(2) - centY)^2);
-radOffset = pi - atan2((turnTable(2) - centY),(turnTable(1) - centX))
+radOffset = pi - atan2((turnTable(2) - centY),(turnTable(1) - centX));
+timeOffset = 
 %turnTable = [-198.7948, 203.1205, 91.6687];
 moveArm(3, 60000, 200, 200, port);
 moveArm(3, 30, 200, 200, port);
@@ -22,7 +25,7 @@ LAB3(port, endEff, [radius - abs(turnTable(1)), turnTable(2), 70.4]);
 initialTime = time(5)*60 + time(6)
 start = tic;
 c = clock;
-currentTime = c(5)*60 + c(6)%+12
+currentTime = c(5)*60 + c(6) - timeOffset;%+12
 rads = 50;
 range = 0.1;
 mod(rads, 2*pi+radOffset)

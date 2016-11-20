@@ -22,33 +22,45 @@ elseif Orientation == 90
     d = b - 0.05;
     %orientate 90 degrees
     %orientate 90 degrees
-    Sequence = [[Sequence], x+w+50, y-(d*h), 0]; %start position
-    Sequence = [[Sequence], x+w+25, y-(d*h)-5, 0];
-    Sequence = [[Sequence], x+(w/2), y, 0]; %mid position
-    Sequence = [[Sequence], x, y, 0];  % end position
-    %DragDomino(Port, Sequence);
-    % when orientation > 90
-    Sequence = [[Sequence], x-w/3, y+(d*h), 0]; %start position 
-    Sequence = [[Sequence], x-w/2, y+((d*h)/2), 0]; %mid position
-    Sequence = [[Sequence], x, y, 0];  % end position
-    Sequence = [[Sequence], x, y+h/2, 0];
-    %DragDomino(Port, Sequence);
+%     Sequence = [[Sequence], x+w+50, y-(0.5*h), 0]; %start position
+%     Sequence = [[Sequence], x+w+25, y-(0.5*h), 0];
+% %     Sequence = [[Sequence], x+(w/2), y, 0]; %mid position
+% %     Sequence = [[Sequence], x, y, 0];  % end position
+%     %DragDomino(Port, Sequence);
+%     % when orientation > 90
+%     Sequence = [[Sequence], x+w, y +(0.8*h), 0]; %start position 
+%     Sequence = [[Sequence], x+w/2, y +(0.8*h), 0]; %start position 
+%     Sequence = [[Sequence], x-10, y +(0.8*h), 0]; %mid position
+%     Sequence = [[Sequence], x-10, y +((1.3*h)), 0];  % end position
+%     Sequence = [[Sequence], x-10, y +((2*h)), 0];
+%     %DragDomino(Port, Sequence);
+    a = 40; %width
+    b = 45; %height
+    Sequence = [[Sequence], x+a, y-b, 0]; %start position
+    Sequence = [[Sequence], x+a, y-b, 0];
+    Sequence = [[Sequence], x+a/2, y-b, 0];
+    Sequence = [[Sequence], x, y-b, 0];
+    Sequence = [[Sequence], x-a/2, y-b, 0];
+    
+    Sequence = [[Sequence], x, y-b/2, 0];
+    Sequence = [[Sequence], x, y, 0];
+
     
 elseif Orientation < 90
     
-    Sequence = [[Sequence], x+(1.2*w), y-1.2*h, 0]; %start position
-    Sequence = [[Sequence], x+(1*w), y-1.2*h, 0]; 
+    Sequence = [[Sequence], x+(c*w), y-1.2*h, 0]; %start position
+    Sequence = [[Sequence], x+(c*w), y-1.2*h, 0]; 
     Sequence = [[Sequence], x+(c*w), y-(h/2), 0]; %mid position
-    Sequence = [[Sequence], x+(c*w), y, 0];  % end position
+    Sequence = [[Sequence], x+(c*w), y-25, 0];  % end position
     %DragDomino(Port, Sequence);
     
     
 else    
     % when orientation > 90
-    Sequence = [[Sequence], x+(b*w), y-h, 0]; %start position
-    Sequence = [[Sequence], x+(b*w), y-h, 0];
+    Sequence = [[Sequence], x+(b*w), y-1.2*h, 0]; %start position
+    Sequence = [[Sequence], x+(b*w), y-1.2*h, 0];
     Sequence = [[Sequence], x+(b*w), y-(h/2), 0]; %mid position
-    Sequence = [[Sequence], x+(b*w), y, 0];  % end position
+    Sequence = [[Sequence], x+(b*w), y-25, 0];  % end position
     %DragDomino(Port, Sequence);
 end
 runSequence(Port, Sequence);
