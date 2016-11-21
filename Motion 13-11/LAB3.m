@@ -43,8 +43,8 @@ if x2 == 0
     quad2 = quad1;
 end
 
-quad1
-quad2
+quad1;
+quad2;
 
 
 current = getCoords(Port)
@@ -121,7 +121,7 @@ else
     
     steps = round(theta1*1024/300);
     presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
-    GOAL = presentPos + steps
+    GOAL = presentPos + steps;
     if GOAL >= 816
         delta1 = -(180-abs(theta1));
         delta2 = (270-abs(theta2));
@@ -203,11 +203,11 @@ else
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);
 %     end
     %lineIkine(a1, a2, 250, DEFAULT_PORTNUM);
-    moveArm(1, -sign*3, 200, 1000, DEFAULT_PORTNUM);
-    %moveArm(2, -sign*3, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, -sign*5, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(2, sign*3, 200, 1000, DEFAULT_PORTNUM);
     moveArm(3, 30, 100, 200, DEFAULT_PORTNUM);
-    %moveArm(2, sign*3, 200, 1000, DEFAULT_PORTNUM);
-    moveArm(1, (1)*sign*3, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(2, -sign*3, 200, 1000, DEFAULT_PORTNUM);
+    moveArm(1, (1)*sign*5, 200, 1000, DEFAULT_PORTNUM);
 %     if sign > 0
 %         moveArm(1, -8, 100, 1000, Port);
 %         moveArm(2, 4, 50, 200, DEFAULT_PORTNUM);
@@ -292,8 +292,8 @@ if abs(delta1) > 10 || abs(delta2) > 10
 %     return;
 else
     %fineAngle(pivotAngle, jointAngle1, jointAngle2, DEFAULT_PORT)
-    %fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM);
-    fineMove(delta1, delta2, 120, DEFAULT_PORTNUM);
+    fineAngle(delta1, delta2, 0, DEFAULT_PORTNUM);
+    %fineMove(delta1, delta2, 130, DEFAULT_PORTNUM);
     
 end
 %moveArm(3, 53, 68, 512, DEFAULT_PORTNUM);

@@ -1,7 +1,12 @@
 function turn_table(time, frame, centroid, port, correction)
 % frame is picture
 % 
-revTime = 20.8;
+abort(port);
+moveArm(2, 110, 200, 200, port)
+moveArm(1, -45, 200, 200, port);
+%moveArm(3, 30, 200, 200, port)
+
+revTime = 25.31;
 speed = (2*pi)/revTime; %rad/sec
 
 xDistance = 550;

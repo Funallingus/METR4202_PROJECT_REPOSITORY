@@ -39,23 +39,34 @@ for x = 1:(Length-1)
     %LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
     count = count + 1;
     currentPos = getCoords(Port);
+    currentPos(3) = 0;
+    hypotenuse = sqrt(currentPos(1)^2+currentPos(2)^2);
     %if mod(count, 5) == 4
     %if (Sequence(x) > 40 || Sequence(x) < 40) && (mod(count, 5) == 4)
     
     %%%%swapped these two
-    %if Sequence(x) > 40 && mod(count, 4) == 3 && currentPos(1) > 25
-    if abs(Sequence(x)) > 40 && mod(count, 4) == 3 && ...
-            currentPos(1) > 25 && ...
-            (abs(abs(Sequence(x)) - abs(currentPos(1)))) < 80
+    if mod(count, 4) == 3 && currentPos(1) > 20 && hypotenuse < (194+257)
+        if currentPos(1)/abs(currentPos(1)) == Sequence(1)/abs(Sequence(1))
+            LAB3(Port, currentPos, Sequence((x+3):(x+5)));
+        else
+        LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
+        end
+    elseif Sequence(x) > 25 && (mod(count, 4)== 2 || mod(count, 4) == 3) && currentPos(1) > 20 && hypotenuse < (194+257)
+    %if abs(Sequence(x)) > 40 && mod(count, 3) == 2 && ...
+    %        currentPos(1) > 25 && ...
+    %        (abs(abs(Sequence(x)) - abs(currentPos(1)))) < 80
         
         %LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
-        currentPos = getCoords(Port);
-        if currentPos(1)/abs(currentPos(1)) ~= Sequence(1)/abs(Sequence(1))
-            LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
-            C = getCoords(Port);
-            LAB3(Port, C, Sequence((x+3):(x+5)));
+%         currentPos = getCoords(Port);
+%         if currentPos(1)/abs(currentPos(1)) ~= Sequence(1)/abs(Sequence(1))
+%             LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
+%             C = getCoords(Port);
+%             LAB3(Port, C, Sequence((x+3):(x+5)));
+%         else
+        if currentPos(1)/abs(currentPos(1)) == Sequence(1)/abs(Sequence(1))
+            LAB3(Port, currentPos, Sequence((x+3):(x+5)));
         else
-        LAB3(Port, currentPos, Sequence((x+3):(x+5)));
+        LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));
         end
     else
         LAB3(Port, Sequence(x:(x+2)), Sequence((x+3):(x+5)));

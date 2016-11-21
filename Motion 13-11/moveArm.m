@@ -9,8 +9,8 @@ function moveArm(motorPort, angle, speed, torque, port)
 % else 
 %     steps = round(angle*1024/300);
 % end
-angle
-steps = round(angle*1024/300)
+angle;
+steps = round(angle*1024/300);
 % loadlibrary('dynamixel', 'dynamixel.h');
 
 %% Declarations
@@ -27,7 +27,7 @@ calllib('dynamixel', 'dxl_initialize', DEFAULT_PORTNUM, DEFAULT_BAUDNUM);
 
 calllib('dynamixel','dxl_write_word',motorPort, P_TORQUE, torque); %USUALLY 500
 calllib('dynamixel','dxl_write_word',motorPort, P_SPEED, speed); %USUALLY max 1023
-incr = 5;
+incr = 4;
 %% Movement
 if angle > 9000
 %     if motorPort == 1
@@ -53,7 +53,7 @@ if motorPort == 1
     elseif GOAL < 200
         GOAL = 200;
     end
-    incr = 4;
+    incr = 3;%4
 elseif motorPort == 2
     if GOAL < 50
         GOAL = 50;
@@ -81,7 +81,9 @@ loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib( 'dynamixel', 'dxl_read_word', motorPort, P_PRESENT_POSITION));
 %GOAL = 500
-GOAL
+GOAL;
+currentValue = 1;
+previousValue = 2;
 while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
     calllib('dynamixel', 'dxl_write_word', motorPort, P_GOAL_POSITION, GOAL);
     if motorPort == 3 && angle > 29 && angle < 90 && presentPos > 650
@@ -94,6 +96,17 @@ while ((presentPos < (GOAL-incr))||(presentPos > (GOAL+incr)))
         end
     end
     presentPos = int32(calllib('dynamixel', 'dxl_read_word', motorPort ,P_PRESENT_POSITION));
+    
+    count = count+1;
+    if mod(count, 100) == 99
+        currentValue = presentPos;
+    end
+    if mod(count, 100) == 50
+        previousValue = presentPos;
+    end
+    if currentValue == previousValue
+        break;
+    end
 %     if presentPos == loopVal;
 %         loopCount = loopCount + 1;
 %     else

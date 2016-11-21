@@ -50,7 +50,7 @@ if jointAngle1 > 9000
         GOAL2 = 512;
 else 
     if steps2 == 0
-        incr = 3;
+        incr = 2;
     end
     presentPos2 = int32(calllib( 'dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
     GOAL2 = presentPos2 + steps2;
@@ -71,6 +71,10 @@ end
 
 GOAL3 = int32(calllib('dynamixel', 'dxl_read_word', 3, P_PRESENT_POSITION));
 count = 0;
+previousValue1 = 6;
+previousValue2 = 4;
+currentValue2 = 1;
+currentValue1 =2;
 loopCount = 0;
 loopVal = 0;
 presentPos = int32(calllib('dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
@@ -80,6 +84,20 @@ while ((presentPos < (GOAL1-incr))||(presentPos > (GOAL1+incr))) && ((presentPos
     calllib('dynamixel', 'dxl_write_word', 3, P_GOAL_POSITION, GOAL3);
     presentPos = int32(calllib('dynamixel', 'dxl_read_word', 1, P_PRESENT_POSITION));
     presentPos2 = int32(calllib('dynamixel', 'dxl_read_word', 2, P_PRESENT_POSITION));
+    
+    
+    count = count+1;
+    if mod(count, 100) == 99
+        currentValue1 = presentPos;
+        currentValue2 = presentPos2;
+    end
+    if mod(count, 100) == 50
+        previousValue1 = presentPos;
+        previousValue2 = presentPos2;
+    end
+    if currentValue1 == previousValue1 && currentValue2 == previousValue2
+        break;
+    end
 end
 
 % if (presentPos2 < (GOAL2-incr))||(presentPos2 > (GOAL2+incr))

@@ -38,7 +38,7 @@ BW = im2bw(F, graythresh(F));
 %% Adds bounding box to all of the objects (rectangles) found
 %%by the edge detection toolbox
 turnTableCentroid= {};
-%{
+
 [B,L,N,A] = bwboundaries(BW);
 figure; imshow(currentImage); hold on;
 for k=1:length(B),
@@ -47,8 +47,8 @@ for k=1:length(B),
      plot(boundary(:,2)/resize,boundary(:,1)/resize,'r','LineWidth',2);hold on;
     end
 end
-% hold off;
-%}
+hold off;
+
 obstructionMap = ones(size(BW, 2) - 1, size(BW, 1) - 1);
 size(BW)
 size(obstructionMap);
@@ -79,7 +79,7 @@ for k = 1 : numberOfBlobs % Loop through all blobs.
     height = rects(4)/resize;
     x = [x1, x2, x2, x1, x1];
     y = [y1, y1, y2, y2, y1];
-    plot(x, y, 'LineWidth', 2);
+%     plot(x, y, 'LineWidth', 2);
     axis_aspect_ratio = blobMeasurements(k).MinorAxisLength / blobMeasurements(k).MajorAxisLength;
     if  (axis_aspect_ratio > 0.25)  && (width* height) > 100 &&...
        (width * height) < (size(currentImage, 1) * size(currentImage, 2) * 0.025) &&...
